@@ -15,7 +15,7 @@ public class CursorController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKey(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             Cursor.lockState = isLocked ? CursorLockMode.None : CursorLockMode.Locked;
             isLocked = !isLocked;
         }
