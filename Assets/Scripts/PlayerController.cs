@@ -14,25 +14,34 @@ public class PlayerController : MonoBehaviour {
     
     private Vector3 playerVelocity;
     private bool isGrounded;
+
+    private float horizontalInput;
+    private float verticalInput;
     
     void Start() {
         controller = GetComponent<CharacterController>();
     }
 
     void Update() {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        
         isGrounded = controller.isGrounded;
         if (isGrounded && playerVelocity.y < 0) {
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * (playerSpeed * Time.deltaTime));
+        Vector3 forward = camera.transform.forward;
+        Vector3 right = camera.transform.right;
 
-        if (move != Vector3.zero) {
-            gameObject.transform.forward = move;
-        }
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
 
-        // Changes the height position of the player..
+        Vector3 moveDirection = (forward * verticalInput) + (right * horizontalInput);
+        playerVelocity = moveDirection * playerSpeed;
+
         if (Input.GetButtonDown("Jump") && isGrounded) {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
