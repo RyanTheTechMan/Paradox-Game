@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour {
         cameraLeft.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * 30, Vector3.up);
         cameraLeft.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * 30, Vector3.left);
         cameraLeft.transform.rotation = Quaternion.Euler(cameraLeft.transform.rotation.eulerAngles.x, cameraLeft.transform.rotation.eulerAngles.y, 0);
+        
+        cameraRight.transform.rotation = cameraLeft.transform.rotation;
     }
 
     private void DoJump() {
