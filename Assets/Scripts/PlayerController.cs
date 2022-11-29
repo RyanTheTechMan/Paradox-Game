@@ -5,7 +5,7 @@ using UnityEngine;
 // https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
 
 public class PlayerController : MonoBehaviour {
-    public GameObject camera;
+    public GameObject playerCamera;
     private CharacterController controller;
     
     public float playerSpeed = 2.0f;
@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour {
             playerVelocity.y = 0f;
         }
 
-        Vector3 forward = camera.transform.forward;
-        Vector3 right = camera.transform.right;
+        Vector3 forward = playerCamera.transform.forward;
+        Vector3 right = playerCamera.transform.right;
 
         forward.y = 0;
         right.y = 0;
