@@ -6,8 +6,7 @@ using UnityEngine;
 // https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
 
 public class PlayerController : MonoBehaviour {
-    public Camera cameraLeft;
-    public Camera cameraRight;
+    public Camera camera;
     
     public float playerSpeed = 2.0f;
     public float jumpForce = 50.0f;
@@ -52,8 +51,8 @@ public class PlayerController : MonoBehaviour {
         float horizontalInput = controls.FirstPerson.Move.ReadValue<Vector2>().x;
         float verticalInput = controls.FirstPerson.Move.ReadValue<Vector2>().y;
         
-        Vector3 forward = cameraLeft.transform.forward;
-        Vector3 right = cameraLeft.transform.right;
+        Vector3 forward = camera.transform.forward;
+        Vector3 right = camera.transform.right;
 
         forward.y = 0;
         right.y = 0;
@@ -69,11 +68,9 @@ public class PlayerController : MonoBehaviour {
     private void DoCameraMove() {
         Vector2 mouseDelta = controls.FirstPerson.Look.ReadValue<Vector2>();
         
-        cameraLeft.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * 30, Vector3.up);
-        cameraLeft.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * 30, Vector3.left);
-        cameraLeft.transform.rotation = Quaternion.Euler(cameraLeft.transform.rotation.eulerAngles.x, cameraLeft.transform.rotation.eulerAngles.y, 0);
-        
-        cameraRight.transform.rotation = cameraLeft.transform.rotation;
+        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * 30, Vector3.up);
+        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * 30, Vector3.left);
+        camera.transform.rotation = Quaternion.Euler(camera.transform.rotation.eulerAngles.x, camera.transform.rotation.eulerAngles.y, 0);
     }
 
     private void DoJump() {
