@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - LeftView
-  - RightView
+  - _LeftView
+  - _RightView
   - 
   - 
   - 
@@ -21,8 +21,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Left Eye
+  - Right Eye
   - 
   - 
   - 
