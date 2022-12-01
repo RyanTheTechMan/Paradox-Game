@@ -7,11 +7,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     public Camera camera;
-    
+
+    public float cameraSensitivity = 15.0f;
     public float playerSpeed = 2.0f;
     public float jumpForce = 50.0f;
-    // public float jumpHeight = 1.0f;
-    // public float gravityValue = -9.81f;
 
     private Rigidbody rigidbody;
     private Vector3 playerVelocity;
@@ -40,11 +39,12 @@ public class PlayerController : MonoBehaviour {
     }
     
     void Update() {
-        DoPlayerMove();
+        // DoPlayerMove();
     }
 
     private void FixedUpdate() {
         DoCameraMove();
+        DoPlayerMove();
     }
 
     private void DoPlayerMove() {
@@ -68,8 +68,8 @@ public class PlayerController : MonoBehaviour {
     private void DoCameraMove() {
         Vector2 mouseDelta = controls.FirstPerson.Look.ReadValue<Vector2>();
         
-        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * 30, Vector3.up);
-        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * 30, Vector3.left);
+        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * cameraSensitivity, Vector3.up);
+        camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * cameraSensitivity, Vector3.left);
         camera.transform.rotation = Quaternion.Euler(camera.transform.rotation.eulerAngles.x, camera.transform.rotation.eulerAngles.y, 0);
     }
 

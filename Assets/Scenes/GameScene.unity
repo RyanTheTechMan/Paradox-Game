@@ -1249,6 +1249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 1844047951}
+  cameraSensitivity: 10
   playerSpeed: 5
   jumpForce: 200
 --- !u!54 &1250721970
