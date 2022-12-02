@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     public Camera _camera;
+    private CharacterController _characterController;
 
     public float cameraSensitivity = 15.0f;
     public float playerSpeed = 2.0f;
     public float jumpForce = 50.0f;
 
-    private Rigidbody rigidbody;
     private Vector3 playerVelocity;
     private bool isGrounded;
 
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Awake() {
-        rigidbody = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
         controls = new PlayerControls();
     }
 
@@ -39,41 +39,46 @@ public class PlayerController : MonoBehaviour {
     }
     
     void Update() {
-        // DoPlayerMove();
+        DoPlayerMove();
     }
 
     private void FixedUpdate() {
         DoCameraMove();
-        DoPlayerMove();
     }
 
     private void DoPlayerMove() {
-        float horizontalInput = controls.FirstPerson.Move.ReadValue<Vector2>().x;
-        float verticalInput = controls.FirstPerson.Move.ReadValue<Vector2>().y;
+        isGrounded = _characterController.isGrounded;
+        if (isGrounded && playerVelocity.y < 0) playerVelocity.y = 0f;
+
+        Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
-        Vector3 forward = _camera.transform.forward;
-        Vector3 right = _camera.transform.right;
+        Vector3 move = transform.right * input.x + transform.forward * input.y;
+        _characterController.Move(move * playerSpeed * Time.deltaTime);
 
-        forward.y = 0;
-        right.y = 0;
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 moveDirection = (forward * verticalInput) + (right * horizontalInput);
-        playerVelocity = moveDirection * playerSpeed;
-
-        transform.Translate(playerVelocity * Time.deltaTime);
+        playerVelocity.y += Physics.gravity.y * Time.deltaTime;
+        _characterController.Move(playerVelocity * Time.deltaTime);
     }
     
     private void DoCameraMove() {
         Vector2 mouseDelta = controls.FirstPerson.Look.ReadValue<Vector2>();
+
+        float mouseX = mouseDelta.x * cameraSensitivity * Time.deltaTime;
+        float mouseY = mouseDelta.y * cameraSensitivity * Time.deltaTime;
         
-        _camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.x * Time.deltaTime * cameraSensitivity, Vector3.up);
-        _camera.transform.rotation *= Quaternion.AngleAxis(mouseDelta.y * Time.deltaTime * cameraSensitivity, Vector3.left);
-        _camera.transform.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x, _camera.transform.rotation.eulerAngles.y, 0);
+        transform.Rotate(Vector3.up, mouseX, Space.Self);
+        _camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
+        
+        // Clamp camera rotation
+        //float xRotation = _camera.transform.localRotation.eulerAngles.x;
+        //if (xRotation > 180) xRotation -= 360;
+        //xRotation = Mathf.Clamp(xRotation, -90, 90);
+        //_camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        
     }
 
     private void DoJump() {
-        rigidbody.AddForce(Vector3.up * jumpForce);
+        if (isGrounded) {
+            playerVelocity.y += Mathf.Sqrt(-jumpForce * Physics.gravity.y);
+        }
     }
 }
