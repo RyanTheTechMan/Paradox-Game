@@ -11,6 +11,18 @@ TagManager:
   - 
   - Water
   - UI
+  - _LeftView
+  - _RightView
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Left Eye
+  - Right Eye
   - 
   - 
   - 
@@ -24,19 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Screen Renderer
   m_SortingLayers:
   - name: Default
     uniqueID: 0

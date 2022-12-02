@@ -35,6 +35,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Button"",
+                    ""id"": ""de8af48d-abeb-430e-99dd-af4e95c04c7e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""53d34c90-7c0c-41cc-9ff3-847c7fd22460"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -44,8 +62,74 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""GameView"",
+                    ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""03bf5177-d422-4f04-96f0-45a0e5204cbb"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""52e03fbd-dd69-4f13-8d2f-8f9ef0b2ef64"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3578f87e-4fd2-4bff-b581-6075652f2553"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9326444b-9b9b-42e0-ac25-c0bb6523e7ea"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ae41768c-c538-4dd4-a59c-ddb2b1195935"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f394d365-1ed9-487d-9f0c-74c26a0e62ea"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -54,11 +138,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""GameView"",
-            ""bindingGroup"": ""GameView"",
+            ""name"": ""Keyboard & Mouse"",
+            ""bindingGroup"": ""Keyboard & Mouse"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -69,6 +158,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // First Person
         m_FirstPerson = asset.FindActionMap("First Person", throwIfNotFound: true);
         m_FirstPerson_Look = m_FirstPerson.FindAction("Look", throwIfNotFound: true);
+        m_FirstPerson_Move = m_FirstPerson.FindAction("Move", throwIfNotFound: true);
+        m_FirstPerson_Jump = m_FirstPerson.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -129,11 +220,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_FirstPerson;
     private IFirstPersonActions m_FirstPersonActionsCallbackInterface;
     private readonly InputAction m_FirstPerson_Look;
+    private readonly InputAction m_FirstPerson_Move;
+    private readonly InputAction m_FirstPerson_Jump;
     public struct FirstPersonActions
     {
         private @PlayerControls m_Wrapper;
         public FirstPersonActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_FirstPerson_Look;
+        public InputAction @Move => m_Wrapper.m_FirstPerson_Move;
+        public InputAction @Jump => m_Wrapper.m_FirstPerson_Jump;
         public InputActionMap Get() { return m_Wrapper.m_FirstPerson; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -146,6 +241,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnLook;
+                @Move.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_FirstPersonActionsCallbackInterface = instance;
             if (instance != null)
@@ -153,21 +254,29 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
     public FirstPersonActions @FirstPerson => new FirstPersonActions(this);
-    private int m_GameViewSchemeIndex = -1;
-    public InputControlScheme GameViewScheme
+    private int m_KeyboardMouseSchemeIndex = -1;
+    public InputControlScheme KeyboardMouseScheme
     {
         get
         {
-            if (m_GameViewSchemeIndex == -1) m_GameViewSchemeIndex = asset.FindControlSchemeIndex("GameView");
-            return asset.controlSchemes[m_GameViewSchemeIndex];
+            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard & Mouse");
+            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
     public interface IFirstPersonActions
     {
         void OnLook(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
