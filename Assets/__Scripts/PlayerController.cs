@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
