@@ -36,6 +36,11 @@ public class HandheldPortal : MonoBehaviour
 
         _camera.targetTexture = _renderTexture;
         cameraView.texture = _renderTexture;
+
+        Vector3 scale = cameraView.transform.localScale;
+        float aspectRatio = (float)Screen.width / Screen.height;
+        scale.x = scale.y * aspectRatio;
+        cameraView.transform.localScale = scale;
     }
     
     private void Update()
@@ -47,5 +52,6 @@ public class HandheldPortal : MonoBehaviour
     {
         _camera.transform.position = _player._camera.transform.position;
         _camera.transform.rotation = _player._camera.transform.rotation;
+        //_camera.transform.LookAt(_player._camera.transform.position + _player._camera.transform.forward);
     }
 }

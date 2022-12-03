@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
@@ -6,15 +7,18 @@ public class PlayerController : MonoBehaviour {
     public Camera _camera;
     private CharacterController _characterController;
 
-    public float cameraSensitivity = 15.0f;
-    public float playerSpeed = 2.0f;
-    public float jumpForce = 50.0f;
-    public float pushForce = 1f;
+    public float cameraSensitivity;
+    public float playerSpeed;
+    public float jumpForce;
+    public float pushForce;
+    public float throwForce;
 
     private Vector3 playerVelocity;
     private bool isGrounded;
 
     private PlayerControls controls;
+
+    public Rigidbody hand;
 
     private void OnEnable() {
         controls.Enable();
@@ -66,7 +70,7 @@ public class PlayerController : MonoBehaviour {
         
         transform.Rotate(Vector3.up, mouseX, Space.Self);
         _camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
-        
+
         // Clamp camera rotation
         //float xRotation = _camera.transform.localRotation.eulerAngles.x;
         //if (xRotation > 180) xRotation -= 360;
@@ -82,7 +86,7 @@ public class PlayerController : MonoBehaviour {
     }
     
     private void OnControllerColliderHit(ControllerColliderHit hit) {
-        InteractableObject interactable = hit.gameObject.GetComponent<InteractableObject>();
+        MovableObject interactable = hit.gameObject.GetComponent<MovableObject>();
         if (interactable && !_characterController.isGrounded && interactable.canPush) {
             Rigidbody rb = hit.collider.attachedRigidbody;
             if (rb != null && !rb.isKinematic) {
