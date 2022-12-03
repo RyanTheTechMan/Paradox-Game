@@ -53,6 +53,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""d81095d6-963c-4f35-9492-7a93bca3613a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""944da630-113b-4b29-8505-74b0f89b4a59"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,6 +180,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_FirstPerson_Look = m_FirstPerson.FindAction("Look", throwIfNotFound: true);
         m_FirstPerson_Move = m_FirstPerson.FindAction("Move", throwIfNotFound: true);
         m_FirstPerson_Jump = m_FirstPerson.FindAction("Jump", throwIfNotFound: true);
+        m_FirstPerson_Interact = m_FirstPerson.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -222,6 +243,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_FirstPerson_Look;
     private readonly InputAction m_FirstPerson_Move;
     private readonly InputAction m_FirstPerson_Jump;
+    private readonly InputAction m_FirstPerson_Interact;
     public struct FirstPersonActions
     {
         private @PlayerControls m_Wrapper;
@@ -229,6 +251,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_FirstPerson_Look;
         public InputAction @Move => m_Wrapper.m_FirstPerson_Move;
         public InputAction @Jump => m_Wrapper.m_FirstPerson_Jump;
+        public InputAction @Interact => m_Wrapper.m_FirstPerson_Interact;
         public InputActionMap Get() { return m_Wrapper.m_FirstPerson; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -247,6 +270,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnJump;
+                @Interact.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_FirstPersonActionsCallbackInterface = instance;
             if (instance != null)
@@ -260,6 +286,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -278,5 +307,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
