@@ -42,16 +42,10 @@ public class HandheldPortal : MonoBehaviour
         scale.x = scale.y * aspectRatio;
         cameraView.transform.localScale = scale;
     }
-    
-    private void Update()
-    {
-        
-    }
 
     private void FixedUpdate()
     {
         _camera.transform.position = _player._camera.transform.position;
         _camera.transform.rotation = _player._camera.transform.rotation;
-        //_camera.transform.LookAt(_player._camera.transform.position + _player._camera.transform.forward);
     }
 }
