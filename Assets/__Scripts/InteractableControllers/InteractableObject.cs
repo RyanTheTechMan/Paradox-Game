@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableObject : MonoBehaviour {
-    void Start() {
-        
-    }
-    
-    void Update() {
-        
-    }
+    public bool canPush;
 
     public virtual void Interact() {
         

@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         controls.FirstPerson.Jump.performed += ctx => DoJump();
+        controls.FirstPerson.Interact.performed += ctx => DoRaycast();
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -37,10 +38,6 @@ public class PlayerController : MonoBehaviour {
     
     void Update() {
         DoPlayerMove();
-
-        if (Input.GetMouseButtonDown(0)) { // left click
-            DoRaycast();
-        }
     }
 
     private void FixedUpdate() {
@@ -83,7 +80,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private RaycastHit DoRaycast() {
+    private void DoRaycast() {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         
@@ -93,7 +90,5 @@ public class PlayerController : MonoBehaviour {
                 controller.Interact();
             }
         }
-
-        return hit;
     }
 }
