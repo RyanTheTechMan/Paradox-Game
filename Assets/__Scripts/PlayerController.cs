@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     public float cameraSensitivity = 15.0f;
     public float playerSpeed = 2.0f;
     public float jumpForce = 50.0f;
+    public float pushForce = 10f;
 
     private Vector3 playerVelocity;
     private bool isGrounded;
@@ -77,5 +79,9 @@ public class PlayerController : MonoBehaviour {
         if (isGrounded) {
             playerVelocity.y += Mathf.Sqrt(-jumpForce * Physics.gravity.y);
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
     }
 }
