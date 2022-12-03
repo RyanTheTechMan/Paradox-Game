@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour {
     
     void Update() {
         DoPlayerMove();
+
+        if (Input.GetMouseButtonDown(0)) { // left click
+            DoRaycast();
+        }
     }
 
     private void FixedUpdate() {
@@ -77,5 +81,19 @@ public class PlayerController : MonoBehaviour {
         if (isGrounded) {
             playerVelocity.y += Mathf.Sqrt(-jumpForce * Physics.gravity.y);
         }
+    }
+
+    private RaycastHit DoRaycast() {
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        
+        if (Physics.Raycast(ray, out hit)) {
+            InteractableObject controller = hit.transform.gameObject.GetComponent<InteractableObject>();
+            if (controller) {
+                controller.Interact();
+            }
+        }
+
+        return hit;
     }
 }
