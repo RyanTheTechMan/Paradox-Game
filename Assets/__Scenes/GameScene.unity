@@ -1812,6 +1812,7 @@ MonoBehaviour:
   cameraSensitivity: 15
   playerSpeed: 2
   jumpForce: 10
+  pushForce: 1
 --- !u!143 &1250721967
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2523,6 +2524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb06eedb38988b4aa9dca7f6e3309f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionDistance: 3
+  canPush: 0
+  holdDistance: 2
+  cubeInteractionDistance: 3
 --- !u!1 &2014535254
 GameObject:
   m_ObjectHideFlags: 0

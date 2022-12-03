@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     public float cameraSensitivity = 15.0f;
     public float playerSpeed = 2.0f;
     public float jumpForce = 50.0f;
-    public float pushForce = 10f;
+    public float pushForce = 1f;
 
     private Vector3 playerVelocity;
     private bool isGrounded;
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
         Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
         Vector3 move = transform.right * input.x + transform.forward * input.y;
-        _characterController.Move(move * playerSpeed * Time.deltaTime);
+        _characterController.Move(move * (playerSpeed * Time.deltaTime));
 
         playerVelocity.y += Physics.gravity.y * Time.deltaTime;
         _characterController.Move(playerVelocity * Time.deltaTime);
@@ -81,26 +81,24 @@ public class PlayerController : MonoBehaviour {
         }
     }
     
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (!_characterController.isGrounded && hit.gameObject.GetComponent<InteractableObject>().canPush)
-        {
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        InteractableObject interactable = hit.gameObject.GetComponent<InteractableObject>();
+        if (interactable && !_characterController.isGrounded && interactable.canPush) {
             Rigidbody rb = hit.collider.attachedRigidbody;
-            if (rb != null && !rb.isKinematic)
-            {
-                rb.velocity = hit.moveDirection * pushForce;
+            if (rb != null && !rb.isKinematic) {
+                rb.velocity = hit.moveDirection * pushForce + new Vector3(0, -0.2f, 0);
             }
         }
     }
 
     private void DoRaycast() {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         
         if (Physics.Raycast(ray, out hit)) {
-            InteractableObject controller = hit.transform.gameObject.GetComponent<InteractableObject>();
-            if (controller) {
-                controller.Interact();
+            InteractableObject interactable = hit.transform.gameObject.GetComponent<InteractableObject>();
+            if (interactable && interactable.CanInteract(_characterController.transform)) {
+                interactable.Interact();
             }
         }
     }
