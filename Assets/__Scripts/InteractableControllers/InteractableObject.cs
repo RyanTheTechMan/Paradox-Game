@@ -5,12 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class InteractableObject : MonoBehaviour {
     public bool canPush;
-        
-    }
-    
-    void Update() {
-        
-    }
 
     public virtual void Interact() {
         
