@@ -21,12 +21,12 @@ public class SplitView : MonoBehaviour
     private void Awake()
     {
         // Create a new texture for where the left camera will render.
-        if (_renderTextureLeft != null) _renderTextureLeft.Release();
+        _renderTextureLeft?.Release();
         _renderTextureLeft = new RenderTexture(Screen.width, Screen.height, 24);
         _renderTextureLeft.Create();
         
         // Create a new texture for where the right camera will render.
-        if (_renderTextureRight != null) _renderTextureRight.Release();
+        _renderTextureRight?.Release();
         _renderTextureRight = new RenderTexture(Screen.width, Screen.height, 24);
         _renderTextureRight.Create();
 
