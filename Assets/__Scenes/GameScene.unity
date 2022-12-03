@@ -2212,6 +2212,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2072062526, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 505539401636346148, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
       propertyPath: m_Layer
