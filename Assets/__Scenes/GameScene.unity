@@ -347,7 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173673320}
   - component: {fileID: 173673321}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 290503631}
   - component: {fileID: 290503630}
   - component: {fileID: 290503633}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cam Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -997,7 +997,7 @@ GameObject:
   - component: {fileID: 656976928}
   - component: {fileID: 656976926}
   - component: {fileID: 656976929}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Cam Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1425,7 +1425,7 @@ GameObject:
   - component: {fileID: 1042491630}
   - component: {fileID: 1042491628}
   - component: {fileID: 1042491632}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1452,10 +1452,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2164458231
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1496,7 +1496,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2155873271
+    m_Bits: 2172650231
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2185,20 +2185,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 290503629}
     m_Modifications:
     - target: {fileID: 179993621, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_Layer
-      value: 23
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 179993622, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_LocalPosition.y
+    - target: {fileID: 179993624, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
+      propertyPath: m_CameraType
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 179993622, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+    - target: {fileID: 179993624, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
+      propertyPath: m_VolumeLayerMask.m_Bits
+      value: 8388608
       objectReference: {fileID: 0}
-    - target: {fileID: 2072062524, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_Layer
-      value: 23
+    - target: {fileID: 179993625, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 179993625, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2164458231
       objectReference: {fileID: 0}
     - target: {fileID: 2072062525, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2208,23 +2212,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2072062525, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
+    - target: {fileID: 54483271165993684, guid: 39f44ac9b8d8794498697347369837b1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
       objectReference: {fileID: 0}
-    - target: {fileID: 2072062526, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_Color.a
-      value: 1
+    - target: {fileID: 54483271165993684, guid: 39f44ac9b8d8794498697347369837b1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505539401636346148, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
-      propertyPath: m_Layer
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 1165940725547401376, guid: 39f44ac9b8d8794498697347369837b1,
-        type: 3}
-      propertyPath: m_Layer
-      value: 23
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
@@ -2245,6 +2246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
@@ -2278,18 +2284,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602412404865645778, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
-      propertyPath: m_Layer
-      value: 23
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1990869303867196175, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
       propertyPath: m_Name
       value: Handheld Portal
       objectReference: {fileID: 0}
-    - target: {fileID: 1990869303867196175, guid: 39f44ac9b8d8794498697347369837b1,
+    - target: {fileID: 6866533543593349279, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
-      propertyPath: m_Layer
-      value: 23
+      propertyPath: weight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -2306,7 +2312,7 @@ GameObject:
   - component: {fileID: 1718268093}
   - component: {fileID: 1718268092}
   - component: {fileID: 1718268091}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Cube Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
