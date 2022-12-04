@@ -15,5 +15,4 @@ public class InteractableCube : MovableObject {
         
         interactionDistance = cubeInteractionDistance;
     }
-
 }
