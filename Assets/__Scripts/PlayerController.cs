@@ -44,10 +44,10 @@ public class PlayerController : MonoBehaviour {
     }
     
     void Update() {
-        DoPlayerMove();
     }
 
     private void FixedUpdate() {
+        DoPlayerMove();
         DoCameraMove();
     }
 
@@ -60,8 +60,8 @@ public class PlayerController : MonoBehaviour {
         Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
         Vector3 move = transform.right * input.x + transform.forward * input.y;
-        playerVelocity.y += Physics.gravity.y * Time.deltaTime;
-        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.deltaTime));
+        playerVelocity.y += Physics.gravity.y * Time.fixedDeltaTime;
+        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
     }
     
     private void DoCameraMove() {
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
     
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         MovableObject interactable = hit.gameObject.GetComponent<MovableObject>();
-        if (interactable && !_characterController.isGrounded && interactable.canPush) {
+        if (interactable && interactable.canPush) {
             Rigidbody rb = hit.collider.attachedRigidbody;
             if (rb != null && !rb.isKinematic) {
                 rb.velocity = hit.moveDirection * pushForce + new Vector3(0, -0.2f, 0);
