@@ -98,7 +98,7 @@ MonoBehaviour:
     Source: 1
     NormalSamples: 1
     Intensity: 0.5
-    DirectLightingStrength: 0.25
+    DirectLightingStrength: 0.3
     Radius: 0.25
     SampleCount: 12
 --- !u!114 &11400000
@@ -142,10 +142,10 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 2147681079
+    m_Bits: 2172846903
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 2147681079
+    m_Bits: 2172846903
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
