@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour {
     private Vector3 playerVelocity;
     private bool isGrounded;
 
-    private PlayerControls controls;
+    [NonSerialized]
+    public PlayerControls controls;
 
     public Rigidbody hand;
 
@@ -51,15 +52,15 @@ public class PlayerController : MonoBehaviour {
 
     private void DoPlayerMove() {
         isGrounded = _characterController.isGrounded;
-        if (isGrounded && playerVelocity.y < 0) playerVelocity.y = 0f;
+        if (isGrounded && playerVelocity.y < 0) {
+            playerVelocity.y = 0;
+        }
 
         Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
         Vector3 move = transform.right * input.x + transform.forward * input.y;
-        _characterController.Move(move * (playerSpeed * Time.deltaTime));
-
         playerVelocity.y += Physics.gravity.y * Time.deltaTime;
-        _characterController.Move(playerVelocity * Time.deltaTime);
+        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.deltaTime));
     }
     
     private void DoCameraMove() {
@@ -76,7 +77,6 @@ public class PlayerController : MonoBehaviour {
         //if (xRotation > 180) xRotation -= 360;
         //xRotation = Mathf.Clamp(xRotation, -90, 90);
         //_camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        
     }
 
     private void DoJump() {

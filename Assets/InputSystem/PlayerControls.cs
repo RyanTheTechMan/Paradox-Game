@@ -62,6 +62,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TogglePortal"",
+                    ""type"": ""Button"",
+                    ""id"": ""4bb6a76e-7aee-4670-b5f8-5bb38adae3a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""707eb549-bbc4-499f-a2fe-51e9a92eadc3"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""TogglePortal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -181,6 +201,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_FirstPerson_Move = m_FirstPerson.FindAction("Move", throwIfNotFound: true);
         m_FirstPerson_Jump = m_FirstPerson.FindAction("Jump", throwIfNotFound: true);
         m_FirstPerson_Interact = m_FirstPerson.FindAction("Interact", throwIfNotFound: true);
+        m_FirstPerson_TogglePortal = m_FirstPerson.FindAction("TogglePortal", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -244,6 +265,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_FirstPerson_Move;
     private readonly InputAction m_FirstPerson_Jump;
     private readonly InputAction m_FirstPerson_Interact;
+    private readonly InputAction m_FirstPerson_TogglePortal;
     public struct FirstPersonActions
     {
         private @PlayerControls m_Wrapper;
@@ -252,6 +274,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_FirstPerson_Move;
         public InputAction @Jump => m_Wrapper.m_FirstPerson_Jump;
         public InputAction @Interact => m_Wrapper.m_FirstPerson_Interact;
+        public InputAction @TogglePortal => m_Wrapper.m_FirstPerson_TogglePortal;
         public InputActionMap Get() { return m_Wrapper.m_FirstPerson; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -273,6 +296,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnInteract;
+                @TogglePortal.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
+                @TogglePortal.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
+                @TogglePortal.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
             }
             m_Wrapper.m_FirstPersonActionsCallbackInterface = instance;
             if (instance != null)
@@ -289,6 +315,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @TogglePortal.started += instance.OnTogglePortal;
+                @TogglePortal.performed += instance.OnTogglePortal;
+                @TogglePortal.canceled += instance.OnTogglePortal;
             }
         }
     }
@@ -308,5 +337,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnTogglePortal(InputAction.CallbackContext context);
     }
 }
