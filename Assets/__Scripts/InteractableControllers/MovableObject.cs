@@ -25,8 +25,16 @@ public class MovableObject : InteractableObject {
         }
     }
     
-    public override void Interact() {
-        base.Interact();
+    public override void PrimaryInteract() {
+        base.PrimaryInteract();
+        if (!canHold) return;
+
+        if (beingHeld) Drop();
+        else PickUp();
+    }
+    
+    public override void SecondaryInteract() {
+        base.SecondaryInteract();
         if (!canHold) return;
 
         if (beingHeld) Throw();
@@ -44,17 +52,18 @@ public class MovableObject : InteractableObject {
         beingHeld = true;
         _rigidbody.useGravity = false;
 
+        _rigidbody.transform.position = playerController._camera.transform.TransformPoint(Vector3.forward * 2);
         _holdPoint = playerController.hand.gameObject.AddComponent<FixedJoint>();
         _holdPoint.breakForce = breakForce;
+        _holdPoint.enableCollision = false;
         _holdPoint.connectedBody = _rigidbody;
     }
     
     private void Throw() {
         if (!beingHeld) return;
         Drop();
-        Vector3 force = transform.position - playerController.transform.position;
-        force = force.normalized;
-        _rigidbody.AddForce(force * playerController.throwForce, ForceMode.Impulse);
+        Vector3 direction = (transform.position - playerController.transform.position).normalized;
+        _rigidbody.AddForce(direction * playerController.throwForce, ForceMode.Impulse);
     }
     
     public override bool CanInteract(Transform interactTransform) {

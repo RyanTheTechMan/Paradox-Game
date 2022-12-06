@@ -6,8 +6,10 @@ public class InteractableObject : MonoBehaviour {
     
     protected PlayerController playerController;
     
-    public virtual void Interact() {}
-    
+    // public virtual void Interact() {}
+    public virtual void PrimaryInteract() { }
+    public virtual void SecondaryInteract() { }
+
     private protected void Awake() {
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
@@ -19,6 +21,4 @@ public class InteractableObject : MonoBehaviour {
     public virtual bool CanInteract(Transform interactTransform) {
         return (transform.position - interactTransform.position).magnitude <= interactionDistance;
     }
-
-    
 }

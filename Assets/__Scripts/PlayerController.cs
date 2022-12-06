@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         controls.FirstPerson.Jump.performed += ctx => DoJump();
-        controls.FirstPerson.Interact.performed += ctx => DoRaycast();
+        controls.FirstPerson.PrimaryInteract.performed += ctx => DoRaycast(true);
+        controls.FirstPerson.SecondaryInteract.performed += ctx => DoRaycast(false);
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -95,14 +96,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void DoRaycast() {
+    private void DoRaycast(bool isPrimary) {
         Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         
         if (Physics.Raycast(ray, out hit)) {
             InteractableObject interactable = hit.transform.gameObject.GetComponent<InteractableObject>();
             if (interactable && interactable.CanInteract(_characterController.transform)) {
-                interactable.Interact();
+                if (isPrimary) interactable.PrimaryInteract();
+                else interactable.SecondaryInteract();
             }
         }
     }
