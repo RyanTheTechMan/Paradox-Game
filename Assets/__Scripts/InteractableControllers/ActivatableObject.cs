@@ -45,8 +45,7 @@ public class ActivatableObject : InteractableObject {
         linkedObjects.Add(this);
     }
     
-    protected virtual void Awake() {
-        base.Awake();
+    protected new virtual void Awake() {
         ConfigureLinkedObjects(); // TODO: May not be needed.
         // Debug.Log("Created " + gameObject.name + ". Game contains " +  linkedObjects.Count + " objects already with ID " + id);
     }
@@ -71,6 +70,7 @@ public class ActivatableObject : InteractableObject {
     protected virtual void OnActiveChange(bool activate) {throw new NotImplementedException();}
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(ActivatableObject), true), CanEditMultipleObjects]
 public class ActivatableObjectEditor : Editor {
     public override void OnInspectorGUI() {
@@ -99,3 +99,4 @@ public class ActivatableObjectEditor : Editor {
         EditorGUI.EndDisabledGroup();
     }
 }
+#endif

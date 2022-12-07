@@ -17,7 +17,7 @@ public class MovableObject : InteractableObject {
     public AudioClip[] pushSounds;
     public AudioClip[] dropSounds;
 
-    protected override void Awake() {
+    protected new void Awake() {
         base.Awake();
         _rigidbody = GetComponent<Rigidbody>();
     }
