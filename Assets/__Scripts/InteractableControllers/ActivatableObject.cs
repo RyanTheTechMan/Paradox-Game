@@ -21,6 +21,8 @@ public class ActivatableObject : InteractableObject {
         protected set => _isActive = value;
     }
     
+    private bool _lastActiveState;
+    
     protected List<ActivatableObject> linkedObjects; // All objects with the same ID as this object.
 
     public List<ActivatableObject> GetActivatable { // Objects that can be activated by this ID.
@@ -33,42 +35,43 @@ public class ActivatableObject : InteractableObject {
     public List<ActivatorObject> GetActivators { // Objects that need to be activated to activate this ID.
         get {
             if (linkedObjects == null) ConfigureLinkedObjects();
-            return linkedObjects.Where(x => x is ActivatorObject).Cast<ActivatorObject>().ToList();
+            return linkedObjects.OfType<ActivatorObject>().ToList();
         }
     }
     
     public void ConfigureLinkedObjects() {
-        foreach (ActivatableObject ao in FindObjectsOfType<ActivatableObject>()) {
-            if (ao != this) linkedObjects = ao.linkedObjects;
-        }
-        linkedObjects ??= new List<ActivatableObject>();
+        // Get the linked object of this ID. If none, create a new list.
+        linkedObjects = FindObjectsOfType<ActivatableObject>().FirstOrDefault(x => x.id == id && x != this)?.linkedObjects ?? new List<ActivatableObject>();
         linkedObjects.Add(this);
     }
     
-    protected new void Awake() {
+    protected virtual void Awake() {
+        base.Awake();
         ConfigureLinkedObjects(); // TODO: May not be needed.
         // Debug.Log("Created " + gameObject.name + ". Game contains " +  linkedObjects.Count + " objects already with ID " + id);
     }
     
-    public virtual void UpdateActivation() {
-        // for all objects in linkedObjects, if any are not active, call the Activate() method on objects that are not ActivatorObjects.
-        if (GetActivators.TrueForAll(x => x.isActive)) {
-            GetActivatable.ForEach(x => x.Activate());
+    public virtual void UpdateActivation() { // Must be called when the state of the activator objects change. (Separate function to account for animations)
+        // for all Activators, if they are all active, call the Activate() method on objects that are Activatable.
+        bool allActive = GetActivators.TrueForAll(x => x.isActive);
+        if (allActive != _lastActiveState) {
+            GetActivatable.ForEach(x => x.OnActiveChange(allActive));
+            _lastActiveState = allActive;
         }
     }
     
-    protected void Activate() {
+    protected virtual void Activate() {
         isActive = !outputInverted;
-        UpdateActivation();
     }
     
-    protected void Deactivate() {
+    protected virtual void Deactivate() {
         isActive = outputInverted;
-        UpdateActivation();
     }
+
+    protected virtual void OnActiveChange(bool activate) {throw new NotImplementedException();}
 }
 
-[CustomEditor(typeof(ActivatableObject), true)]
+[CustomEditor(typeof(ActivatableObject), true), CanEditMultipleObjects]
 public class ActivatableObjectEditor : Editor {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
@@ -77,13 +80,11 @@ public class ActivatableObjectEditor : Editor {
         
         EditorGUI.BeginDisabledGroup(true);
         EditorGUILayout.LabelField("Activators:");
-        foreach (ActivatableObject activatable in FindObjectsOfType<ActivatableObject>().Where(x => x is ActivatorObject).Reverse()) {
-            if (activatable.id == ao.id) {
-                GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(activatable.isActive ? "✓" : "✖", GUILayout.Width(20));
-                EditorGUILayout.ObjectField(activatable.gameObject, typeof(GameObject), true);
-                GUILayout.EndHorizontal();
-            }
+        foreach (ActivatableObject activatable in FindObjectsOfType<ActivatableObject>().OfType<ActivatorObject>().Where(x => x.id == ao.id).Reverse()) {
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(activatable.isActive ? "✓" : "✖", GUILayout.Width(20));
+            EditorGUILayout.ObjectField(activatable.gameObject, typeof(GameObject), true);
+            GUILayout.EndHorizontal();
         }
         
         EditorGUILayout.LabelField("Activatables:");

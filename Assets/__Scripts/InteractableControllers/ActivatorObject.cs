@@ -1,2 +1,1 @@
-﻿public class ActivatorObject : ActivatableObject {
-}
+﻿public class ActivatorObject : ActivatableObject {}

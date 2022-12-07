@@ -8,15 +8,14 @@ public class InteractableObject : MonoBehaviour {
     public virtual void PrimaryInteract() { }
     public virtual void SecondaryInteract() { }
 
-    private protected void Awake() {
-        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+    protected virtual void Awake() {
+        playerController = FindObjectOfType<PlayerController>();
     }
-    
-    private protected void Start() {
-        
-    }
+    protected virtual void Start() {}
+    protected virtual void Update() {}
+    protected virtual void FixedUpdate() {}
 
     public virtual bool CanInteract(Transform interactTransform) {
-        return (transform.position - interactTransform.position).magnitude <= interactionDistance;
+        return interactionDistance > 0 && ((transform.position - interactTransform.position).magnitude <= interactionDistance);
     }
 }
