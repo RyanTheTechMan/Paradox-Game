@@ -3,7 +3,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MovableObject : InteractableObject {
-    
     protected Rigidbody _rigidbody;
     protected float breakForce = 10000f;
 
@@ -14,29 +13,30 @@ public class MovableObject : InteractableObject {
     public bool beingHeld;
     
     private FixedJoint _holdPoint;
+    
+    public AudioClip[] pushSounds;
+    public AudioClip[] dropSounds;
 
-    private protected new void Awake() {
+    protected new void Awake() {
+        base.Awake();
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private protected new void Update() {
+    protected override void Update() {
+        base.Update();
         if (_holdPoint == null && beingHeld) {
             Drop();
         }
     }
     
     public override void PrimaryInteract() {
-        base.PrimaryInteract();
         if (!canHold) return;
-
         if (beingHeld) Drop();
         else PickUp();
     }
     
     public override void SecondaryInteract() {
-        base.SecondaryInteract();
         if (!canHold) return;
-
         if (beingHeld) Throw();
         else PickUp();
     }
@@ -51,7 +51,6 @@ public class MovableObject : InteractableObject {
     private void PickUp() {
         beingHeld = true;
         _rigidbody.useGravity = false;
-
         _rigidbody.transform.position = playerController._camera.transform.TransformPoint(Vector3.forward * 2);
         _holdPoint = playerController.hand.gameObject.AddComponent<FixedJoint>();
         _holdPoint.breakForce = breakForce;
@@ -60,7 +59,6 @@ public class MovableObject : InteractableObject {
     }
     
     private void Throw() {
-        if (!beingHeld) return;
         Drop();
         Vector3 direction = (transform.position - playerController.transform.position).normalized;
         _rigidbody.AddForce(direction * playerController.throwForce, ForceMode.Impulse);

@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-// https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
-
 public class PlayerController : MonoBehaviour {
     public Camera _camera;
     private CharacterController _characterController;
@@ -36,18 +34,18 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         controls.FirstPerson.Jump.performed += ctx => DoJump();
-        controls.FirstPerson.PrimaryInteract.performed += ctx => DoRaycast(true);
-        controls.FirstPerson.SecondaryInteract.performed += ctx => DoRaycast(false);
+        controls.FirstPerson.PrimaryInteract.performed += ctx => DoInteract(true);
+        controls.FirstPerson.SecondaryInteract.performed += ctx => DoInteract(false);
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
     
     void Update() {
-        DoPlayerMove();
     }
 
     private void FixedUpdate() {
+        DoPlayerMove();
         DoCameraMove();
     }
 
@@ -60,8 +58,8 @@ public class PlayerController : MonoBehaviour {
         Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
         Vector3 move = transform.right * input.x + transform.forward * input.y;
-        playerVelocity.y += Physics.gravity.y * Time.deltaTime;
-        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.deltaTime));
+        playerVelocity.y += Physics.gravity.y * Time.fixedDeltaTime;
+        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
     }
     
     private void DoCameraMove() {
@@ -88,7 +86,7 @@ public class PlayerController : MonoBehaviour {
     
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         MovableObject interactable = hit.gameObject.GetComponent<MovableObject>();
-        if (interactable && !_characterController.isGrounded && interactable.canPush) {
+        if (interactable && interactable.canPush) {
             Rigidbody rb = hit.collider.attachedRigidbody;
             if (rb != null && !rb.isKinematic) {
                 rb.velocity = hit.moveDirection * pushForce + new Vector3(0, -0.2f, 0);
@@ -96,16 +94,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void DoRaycast(bool isPrimary) {
-        Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit)) {
-            InteractableObject interactable = hit.transform.gameObject.GetComponent<InteractableObject>();
-            if (interactable && interactable.CanInteract(_characterController.transform)) {
-                if (isPrimary) interactable.PrimaryInteract();
-                else interactable.SecondaryInteract();
-            }
+    private void DoInteract(bool isPrimary) {
+        if (CursorController.selected) {
+            if (isPrimary) CursorController.selected.PrimaryInteract();
+            else CursorController.selected.SecondaryInteract();
         }
     }
 }
