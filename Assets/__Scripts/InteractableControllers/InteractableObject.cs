@@ -5,8 +5,6 @@ public class InteractableObject : MonoBehaviour {
     public float interactionDistance = 3;
     
     protected PlayerController playerController;
-    
-    // public virtual void Interact() {}
     public virtual void PrimaryInteract() { }
     public virtual void SecondaryInteract() { }
 

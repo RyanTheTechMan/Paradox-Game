@@ -45,7 +45,7 @@ public class HandheldPortal : MonoBehaviour
     {
         _camera = GetComponentInChildren<Camera>();
         
-        if (_renderTexture != null) _renderTexture.Release();
+        _renderTexture?.Release();
         _renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
         _renderTexture.Create();
         

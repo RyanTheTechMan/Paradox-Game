@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-// https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
-
 public class PlayerController : MonoBehaviour {
     public Camera _camera;
     private CharacterController _characterController;
