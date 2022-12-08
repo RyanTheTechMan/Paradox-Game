@@ -14,7 +14,7 @@ public class Button : ActivatorObject
     private bool _animating = false;
     private GameObject buttonTop;
     
-    protected new void Start()
+    protected override void Start()
     {
         base.Start();
         buttonTop = transform.GetChild(0).gameObject;

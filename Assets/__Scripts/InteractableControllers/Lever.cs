@@ -23,9 +23,6 @@ public class Lever : ActivatorObject {
         if (isActive) Deactivate();
         else Activate();
 
-        _indicatorLight.GetComponent<MeshRenderer>().material = isActive ? activatedMaterial : deactivatedMaterial;
-        
-        UpdateActivation();
         Animate();
     }
     
@@ -38,9 +35,16 @@ public class Lever : ActivatorObject {
     
     private IEnumerator DoAnimate() {
         var t = 0f;
+        bool updatedActivation = false;
         while (t < 1f) {
             t += Time.deltaTime * 5f;
             _leverHandle.transform.localRotation = Quaternion.Euler(Mathf.Lerp(isActive ? _defaultRot : _pressedRot, isActive ? _pressedRot : _defaultRot, t), 0, 0);
+            if (!updatedActivation && t > 0.5f) {
+                UpdateActivation();
+                _indicatorLight.GetComponent<MeshRenderer>().material = isActive ? activatedMaterial : deactivatedMaterial;
+                updatedActivation = true;
+            }
+
             yield return null;
         }
         
