@@ -1405,7 +1405,7 @@ GameObject:
   - component: {fileID: 1119487001}
   - component: {fileID: 1119487000}
   m_Layer: 0
-  m_Name: Right Door
+  m_Name: Left Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1419,7 +1419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119486998}
   m_LocalRotation: {x: -0.7071068, y: 0.0000021383166, z: 0.0000021383166, w: 0.7071068}
-  m_LocalPosition: {x: 3, y: 0, z: -0.5}
+  m_LocalPosition: {x: 3, y: 0, z: -0.5000019}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1969,7 +1969,7 @@ GameObject:
   - component: {fileID: 1738787663}
   - component: {fileID: 1742958641}
   m_Layer: 0
-  m_Name: Left Door
+  m_Name: Right Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2165,8 +2165,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1736858689}
   - {fileID: 1119486999}
+  - {fileID: 1736858689}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
