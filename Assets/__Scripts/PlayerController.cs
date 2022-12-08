@@ -67,15 +67,12 @@ public class PlayerController : MonoBehaviour {
 
         float mouseX = mouseDelta.x * cameraSensitivity * Time.deltaTime;
         float mouseY = mouseDelta.y * cameraSensitivity * Time.deltaTime;
-        
-        transform.Rotate(Vector3.up, mouseX, Space.Self);
-        _camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
+    
+        transform.transform.localRotation *= Quaternion.Euler(0f, mouseX, 0f);
+        _camera.transform.localRotation *= Quaternion.AngleAxis(mouseY, Vector3.left);
 
-        // Clamp camera rotation
-        //float xRotation = _camera.transform.localRotation.eulerAngles.x;
-        //if (xRotation > 180) xRotation -= 360;
-        //xRotation = Mathf.Clamp(xRotation, -90, 90);
-        //_camera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        // transform.Rotate(Vector3.up, mouseX, Space.Self);
+        // _camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
     }
 
     private void DoJump() {
