@@ -21,10 +21,11 @@ public class DoorObject : ActivatableObject {
     protected override void OnActiveChange(bool activate) {
         if (lastState == activate) Debug.LogWarning("Caught duplicate state change. This is a bug.");
         else {
-            if (!_animating) {
-                _animating = true;
-                StartCoroutine(DoAnimate());
-            }
+            if (isActive) Deactivate();
+            else Activate();
+            
+            StartCoroutine(DoAnimate());
+            
             lastState = activate;
         }
     }
@@ -35,15 +36,12 @@ public class DoorObject : ActivatableObject {
         float speed = Mathf.Abs(startPos - endPos);
         
         var t = 0f;
-        float startPos = _leftDoor.transform.localPosition.x;
-        float endPos = isActive ? Mathf.Abs(_restingPos) + _moveDistance : _restingPos;
-        while (t < 1f) {
+        bool animateState = isActive;
+        while (t < 1f && animateState == isActive) {
             t += Time.deltaTime * 2f * (1 / speed);
-            var pos = Mathf.Lerp(startPos, endPos, t);
-            _leftDoor.transform.localPosition = new Vector3(pos, _leftDoor.transform.localPosition.y, _leftDoor.transform.localPosition.z);
-            _rightDoor.transform.localPosition = new Vector3(-pos, _rightDoor.transform.localPosition.y, _rightDoor.transform.localPosition.z);
+            _leftDoor.transform.localPosition = new Vector3(Mathf.Lerp(startPos, endPos, t), 0, -0.5f);
+            _rightDoor.transform.localPosition = new Vector3(Mathf.Lerp(-startPos, -endPos, t), 0, 0.5f);
             yield return null;
         }
-        _animating = false;
     }
 }
