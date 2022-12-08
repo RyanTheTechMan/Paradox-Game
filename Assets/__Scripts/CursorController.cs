@@ -40,11 +40,10 @@ public class CursorController : MonoBehaviour {
             if (interactable && interactable.CanInteract(_playerController.transform)) {
                 cursor.color = _highlightColor;
                 selected = interactable;
+                return;
             }
         }
-        else {
-            selected = null;
-            cursor.color = _normalColor;
-        }
+        selected = null;
+        cursor.color = _normalColor;
     }
 }
