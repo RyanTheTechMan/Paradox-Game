@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 39325759}
   - component: {fileID: 39325758}
   - component: {fileID: 39325757}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,6 +1381,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 813289928}
+  handheldPortalUp:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  handheldPortalDown:
+    serializedVersion: 2
+    m_Bits: 2155874871
 --- !u!20 &1042491630 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8156133135728508516, guid: 9ea213599bfddcb45904c5932252337a,
@@ -2479,6 +2485,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box
       objectReference: {fileID: 0}
+    - target: {fileID: 171638678156355310, guid: 957f257beef79654e91e6e1d02e56573,
+        type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 171638678156355311, guid: 957f257beef79654e91e6e1d02e56573,
         type: 3}
       propertyPath: m_RootOrder
@@ -2639,6 +2650,11 @@ PrefabInstance:
     - target: {fileID: 8156133135728508513, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156133135728508516, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896098, guid: 9ea213599bfddcb45904c5932252337a,

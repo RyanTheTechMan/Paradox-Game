@@ -118,7 +118,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2155938807
+    m_Bits: 2155940855
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -252,7 +252,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2156004343
+    m_Bits: 2156006391
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -378,7 +378,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2172650231
+    m_Bits: 2172652279
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 2164458231
+    m_Bits: 2164460279
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -605,7 +605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 179993625, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 2164458231
+      value: 2164460279
       objectReference: {fileID: 0}
     - target: {fileID: 2072062525, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
       propertyPath: m_AnchorMax.x

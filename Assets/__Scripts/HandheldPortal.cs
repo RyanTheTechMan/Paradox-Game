@@ -19,13 +19,18 @@ public class HandheldPortal : MonoBehaviour
     private PaniniProjection _paniniProjection;
     private LensDistortion _lensDistortion;
     
-    private bool _isPortalActive;
+    [NonSerialized]
+    public bool isPortalActive;
 
     private const float rotationUp = 0f;
     private const float rotationDown = 45f;
     private const float moveDownDistance = 1f;
     private float distanceMoved = 0f;
     private float basePositionY;
+    
+    private int _layerLeftEye;
+    private int _layerPlayer;
+    private int _layerDefault;
 
     private void OnEnable()
     {
@@ -64,6 +69,10 @@ public class HandheldPortal : MonoBehaviour
         
         volume.profile.TryGet(out LensDistortion lensDistortion);
         _lensDistortion = lensDistortion;
+
+        _layerLeftEye = LayerMask.NameToLayer("Left Eye");
+        _layerPlayer = LayerMask.NameToLayer("Player");
+        _layerDefault = LayerMask.NameToLayer("Default");
     }
 
     private void Update() {
@@ -77,20 +86,23 @@ public class HandheldPortal : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isPortalActive) _camera.transform.position = _player._camera.transform.position;
+        if (isPortalActive) _camera.transform.position = _player._camera.transform.position;
+        
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
 
-        // Move portal up or down if _isPortalActive
+        // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;
-        rot.z = Mathf.Lerp(rot.z, _isPortalActive ? rotationUp : rotationDown, Time.fixedUnscaledDeltaTime * 1f);
+        rot.z = Mathf.Lerp(rot.z, isPortalActive ? rotationUp : rotationDown, Time.fixedUnscaledDeltaTime * 1f);
         transform.localRotation = Quaternion.Euler(rot);
-        distanceMoved = Mathf.Lerp(distanceMoved, _isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
+        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
 
-        distanceMoved = Mathf.Lerp(distanceMoved, _isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
+        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
         transform.localPosition = new Vector3(transform.localPosition.x, basePositionY - distanceMoved, transform.localPosition.z);
     }
     
     private void TogglePortal(InputAction.CallbackContext obj) {
-        _isPortalActive = !_isPortalActive;
+        isPortalActive = !isPortalActive;
     }
 
 }

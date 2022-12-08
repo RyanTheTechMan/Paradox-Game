@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7046192010769780498}
   - component: {fileID: 7046192010769780497}
   - component: {fileID: 7046192010769780496}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7046192010799412154}
   - component: {fileID: 7046192010799412157}
   - component: {fileID: 7046192010799412156}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 7046192010946421398}
   - component: {fileID: 7046192010946421399}
   - component: {fileID: 7046192010946421396}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ Transform:
   - {fileID: 7046192010769780498}
   - {fileID: 7046192010799412159}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7046192010946421399
 BoxCollider:
