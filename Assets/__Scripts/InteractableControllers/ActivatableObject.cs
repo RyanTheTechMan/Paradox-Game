@@ -52,6 +52,7 @@ public class ActivatableObject : InteractableObject {
                 x.OnActiveChange();
             });
             _lastActiveState = allActive;
+            if (allActive) AudioManager.instance.PlaySound("Success");
         }
     }
     
