@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ActivatableObject : InteractableObject {
     [SerializeField, Header("Trigger / Activatable when opposite is true")]
-    protected bool outputInverted;
+    protected bool inverted;
     
     [SerializeField, Tooltip("When all activator objects ID are activated.")]
     private uint _id;
@@ -48,7 +48,7 @@ public class ActivatableObject : InteractableObject {
         bool allActive = GetActivators.TrueForAll(x => x.IsActive);
         if (allActive != _lastActiveState) {
             GetActivatable.ForEach(x => {
-                x.IsActive = x.outputInverted ? !allActive : allActive;
+                x.IsActive = x.inverted ? !allActive : allActive;
                 x.OnActiveChange();
             });
             _lastActiveState = allActive;
@@ -57,11 +57,11 @@ public class ActivatableObject : InteractableObject {
     }
     
     protected virtual void Activate() {
-        IsActive = !outputInverted;
+        IsActive = !inverted;
     }
     
     protected virtual void Deactivate() {
-        IsActive = outputInverted;
+        IsActive = inverted;
     }
 
     protected virtual void OnActiveChange() {throw new NotImplementedException();}
