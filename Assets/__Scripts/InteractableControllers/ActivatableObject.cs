@@ -56,6 +56,7 @@ public class ActivatableObject : InteractableObject {
         if (allActive != _lastActiveState) {
             GetActivatable.ForEach(x => x.OnActiveChange(allActive));
             _lastActiveState = allActive;
+            if (allActive) AudioManager.instance.PlaySound("Success");
         }
     }
     

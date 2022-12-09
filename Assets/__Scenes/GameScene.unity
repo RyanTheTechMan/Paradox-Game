@@ -340,7 +340,73 @@ Transform:
   - {fileID: 1139855622}
   - {fileID: 6616495635585754773}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &195700396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195700398}
+  - component: {fileID: 195700397}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &195700397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195700396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f7a1d23a059ab4c81c2d085a0daa02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Success
+    clips:
+    - {fileID: 8300000, guid: 65c44e631a205d948a6266e198dda518, type: 3}
+    volume: 1
+    pitch: 1
+    randomVolumeRange: {x: 1, y: 1}
+    randomPitchRange: {x: 1, y: 1}
+  - name: Switch On
+    clips:
+    - {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
+    volume: 1
+    pitch: 1
+    randomVolumeRange: {x: 1, y: 1}
+    randomPitchRange: {x: 1, y: 1}
+  - name: Switch Off
+    clips:
+    - {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
+    volume: 1
+    pitch: 1
+    randomVolumeRange: {x: 1, y: 1}
+    randomPitchRange: {x: 1, y: 1}
+--- !u!4 &195700398
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195700396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &290503632 stripped
 Camera:
@@ -589,7 +655,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &570815390
 GameObject:
@@ -623,7 +689,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &570815392
 MonoBehaviour:
@@ -847,7 +913,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &691197910
 MonoBehaviour:
@@ -1795,6 +1861,21 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 114034820}
     m_Modifications:
+    - target: {fileID: 1267468925807805125, guid: cab5f902518132d4592d91e16e4885ca,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267468925807805125, guid: cab5f902518132d4592d91e16e4885ca,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267468925807805125, guid: cab5f902518132d4592d91e16e4885ca,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7046192010946421396, guid: cab5f902518132d4592d91e16e4885ca,
         type: 3}
       propertyPath: _id
@@ -2219,6 +2300,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 114034820}
     m_Modifications:
+    - target: {fileID: 1267468925807805125, guid: cab5f902518132d4592d91e16e4885ca,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267468925807805125, guid: cab5f902518132d4592d91e16e4885ca,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.222
+      objectReference: {fileID: 0}
     - target: {fileID: 7046192010946421396, guid: cab5f902518132d4592d91e16e4885ca,
         type: 3}
       propertyPath: _id
@@ -2338,7 +2429,7 @@ PrefabInstance:
     - target: {fileID: 8156133135919896103, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896103, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}

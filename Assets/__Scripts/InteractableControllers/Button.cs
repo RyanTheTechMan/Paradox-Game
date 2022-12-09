@@ -23,6 +23,9 @@ public class Button : ActivatorObject
     private void OnTriggerEnter (Collider other) {
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
         if (!isActive) {
+            Debug.Log("ACTIVATE YOU STUPID FUCK");
+            // transform.GetComponent<AudioSource>().PlayOneShot(AudioManager.instance.GetClip("Switch On"));
+            transform.GetComponent<AudioSource>().Play();
             Activate();
             UpdateActivation();
             Animate();
@@ -31,6 +34,7 @@ public class Button : ActivatorObject
     private void OnTriggerExit (Collider other) {
         _objectsOnButton.Remove(other);
         if (_objectsOnButton.Count == 0) {
+            transform.GetComponent<AudioSource>().PlayOneShot(AudioManager.instance.GetClip("Switch Off"));
             Deactivate();
             UpdateActivation();
             Animate();
