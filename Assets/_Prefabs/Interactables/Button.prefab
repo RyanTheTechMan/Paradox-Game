@@ -228,7 +228,7 @@ Transform:
   - {fileID: 7046192010769780498}
   - {fileID: 7046192010799412159}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7046192010946421396
 MonoBehaviour:
@@ -245,6 +245,8 @@ MonoBehaviour:
   interactionDistance: 0
   inverted: 0
   _id: 0
+  _activateSound: {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
+  _deactivateSound: {fileID: 8300000, guid: 219446f637160374ca740e252d856ca8, type: 3}
 --- !u!82 &1267468925807805125
 AudioSource:
   m_ObjectHideFlags: 0
@@ -254,17 +256,18 @@ AudioSource:
   m_GameObject: {fileID: 7046192010946421401}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
+  OutputAudioMixerGroup: {fileID: -3741649136001268257, guid: f137e4debb47a1344937c7efdd3c5406,
+    type: 2}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 3
   MaxDistance: 10
   Pan2D: 0
@@ -301,7 +304,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

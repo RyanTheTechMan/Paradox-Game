@@ -26,6 +26,8 @@ public class Lever : ActivatorObject {
         Animate();
     }
     
+    public override void SecondaryInteract() {}
+    
     private void Animate() {
         if (!_animating) {
             _animating = true;

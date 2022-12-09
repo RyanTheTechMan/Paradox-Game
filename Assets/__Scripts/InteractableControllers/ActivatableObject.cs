@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class ActivatableObject : InteractableObject {
     [SerializeField, Header("Trigger / Activatable when opposite is true")]
     protected bool inverted;
@@ -11,9 +12,12 @@ public class ActivatableObject : InteractableObject {
     [SerializeField, Tooltip("When all activator objects ID are activated.")]
     private uint _id;
     public uint ID => _id; // Prevents changing ID in code
+    
+    protected AudioSource _audioSource;
+    [SerializeField] protected AudioClip _activateSound;
+    [SerializeField] protected AudioClip _deactivateSound;
 
     public bool IsActive { get; private set; }
-
     private bool _lastActiveState;
     
     protected List<ActivatableObject> LinkedObjects; // All objects with the same ID as this object.
@@ -40,6 +44,7 @@ public class ActivatableObject : InteractableObject {
     
     protected override void Awake() {
         base.Awake();
+        _audioSource = GetComponent<AudioSource>();
         ConfigureLinkedObjects(); // TODO: May not be needed.
     }
 
@@ -50,21 +55,31 @@ public class ActivatableObject : InteractableObject {
             GetActivatable.ForEach(x => {
                 x.IsActive = x.inverted ? !allActive : allActive;
                 x.OnActiveChange();
+                x.PlaySound();
             });
             _lastActiveState = allActive;
-            if (allActive) AudioManager.instance.PlaySound("Success");
         }
     }
     
-    protected virtual void Activate() {
+    protected virtual void Activate() { // Should only be called by Activator objects.
         IsActive = !inverted;
+        PlaySound();
     }
     
-    protected virtual void Deactivate() {
+    protected virtual void Deactivate() { // Should only be called by Activator objects.
         IsActive = inverted;
+        PlaySound();
     }
 
-    protected virtual void OnActiveChange() {throw new NotImplementedException();}
+    protected virtual void PlaySound() { // Called when state changes of an object.
+        if (IsActive) {
+            if (_activateSound != null) _audioSource.PlayOneShot(_activateSound);
+        } else {
+            if (_deactivateSound != null) _audioSource.PlayOneShot(_deactivateSound);
+        }
+    }
+
+    protected virtual void OnActiveChange() {throw new NotImplementedException();} // Only calls when not an Activator object.
 }
 
 #if UNITY_EDITOR

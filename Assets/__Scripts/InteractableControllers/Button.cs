@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Button : ActivatorObject
 {
     // When object is on the button, it will be activated, only once all objects are off the button, it will be deactivated
@@ -22,7 +23,6 @@ public class Button : ActivatorObject
     private void OnTriggerEnter (Collider other) {
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
         if (!IsActive) {
-            transform.GetComponent<AudioSource>().Play();
             Activate();
             UpdateActivation();
             Animate();
@@ -31,7 +31,6 @@ public class Button : ActivatorObject
     private void OnTriggerExit (Collider other) {
         _objectsOnButton.Remove(other);
         if (_objectsOnButton.Count == 0) {
-            transform.GetComponent<AudioSource>().PlayOneShot(AudioManager.instance.GetClip("Switch Off"));
             Deactivate();
             UpdateActivation();
             Animate();
