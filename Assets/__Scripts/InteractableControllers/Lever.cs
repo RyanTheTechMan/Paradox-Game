@@ -14,17 +14,19 @@ public class Lever : ActivatorObject {
     private GameObject _leverHandle;
     private GameObject _indicatorLight;
 
-    protected override void Start() {
-        base.Start();
+    protected override void Awake() {
+        base.Awake();
         _leverHandle = transform.GetChild(0).gameObject;
         _indicatorLight = transform.GetChild(1).gameObject;
     }
     public override void PrimaryInteract() {
-        if (isActive) Deactivate();
+        if (IsActive) Deactivate();
         else Activate();
 
         Animate();
     }
+    
+    public override void SecondaryInteract() {}
     
     private void Animate() {
         if (!_animating) {
@@ -38,10 +40,10 @@ public class Lever : ActivatorObject {
         bool updatedActivation = false;
         while (t < 1f) {
             t += Time.deltaTime * 5f;
-            _leverHandle.transform.localRotation = Quaternion.Euler(Mathf.Lerp(isActive ? _defaultRot : _pressedRot, isActive ? _pressedRot : _defaultRot, t), 0, 0);
+            _leverHandle.transform.localRotation = Quaternion.Euler(Mathf.Lerp(IsActive ? _defaultRot : _pressedRot, IsActive ? _pressedRot : _defaultRot, t), 0, 0);
             if (!updatedActivation && t > 0.5f) {
                 UpdateActivation();
-                _indicatorLight.GetComponent<MeshRenderer>().material = isActive ? activatedMaterial : deactivatedMaterial;
+                _indicatorLight.GetComponent<MeshRenderer>().material = IsActive ? activatedMaterial : deactivatedMaterial;
                 updatedActivation = true;
             }
 

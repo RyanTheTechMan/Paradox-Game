@@ -7,25 +7,25 @@ using UnityEngine.UI;
 
 
 public class CursorController : MonoBehaviour {
-    public static CursorController instance;
-    public static InteractableObject selected;
+    public static CursorController Instance;
+    public static InteractableObject Selected;
     
-    public Image cursor;
+    [SerializeField] private Image cursor;
+    [SerializeField] private LayerMask handheldPortalUp;
+    [SerializeField] private LayerMask handheldPortalDown;
     
     private Camera _camera;
     private PlayerController _playerController;
+    private HandheldPortal _handheldPortal;
 
     private readonly Color _highlightColor = new Color32(255, 255, 255, 200);
     private readonly Color _normalColor = new Color32(36, 36, 36, 100);
+    private const float MaxRayDistance = 100f; // Max distance of raycast | Default: Mathf.Infinity
 
-    public LayerMask handheldPortalUp;
-    public LayerMask handheldPortalDown;
-    
-    private HandheldPortal _handheldPortal;
 
     private void Awake() {
-        if (instance == null) {
-            instance = this;
+        if (Instance == null) {
+            Instance = this;
         }
         else {
             Debug.LogWarning("There can only be one CursorController in the scene.");
@@ -43,15 +43,15 @@ public class CursorController : MonoBehaviour {
     }
 
     private void DoRaycast() {
-        if (Physics.Raycast(_camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)), out RaycastHit hit, Mathf.Infinity, _handheldPortal.isPortalActive ? handheldPortalUp : handheldPortalDown)) {
+        if (Physics.Raycast(_camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)), out RaycastHit hit, MaxRayDistance, _handheldPortal.isPortalActive ? handheldPortalUp : handheldPortalDown)) {
             InteractableObject interactable = hit.collider.GetComponent<InteractableObject>();
             if (interactable && interactable.CanInteract(_playerController.transform)) {
                 cursor.color = _highlightColor;
-                selected = interactable;
+                Selected = interactable;
                 return;
             }
         }
-        selected = null;
+        Selected = null;
         cursor.color = _normalColor;
     }
 }

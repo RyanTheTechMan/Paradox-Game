@@ -4,14 +4,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MovableObject : InteractableObject {
     protected Rigidbody _rigidbody;
-    protected float breakForce = 10000f;
+    private const float _breakForce = 10000f;
 
     public bool canPush;
     public bool canHold;
-    
-    [NonSerialized]
-    public bool beingHeld;
-    
+
+    public bool isBeingHeld { get; protected set; }
+
     private FixedJoint _holdPoint;
     
     public AudioClip[] pushSounds;
@@ -24,36 +23,36 @@ public class MovableObject : InteractableObject {
 
     protected override void Update() {
         base.Update();
-        if (_holdPoint == null && beingHeld) {
+        if (_holdPoint == null && isBeingHeld) {
             Drop();
         }
     }
     
     public override void PrimaryInteract() {
         if (!canHold) return;
-        if (beingHeld) Drop();
+        if (isBeingHeld) Drop();
         else PickUp();
     }
     
     public override void SecondaryInteract() {
         if (!canHold) return;
-        if (beingHeld) Throw();
+        if (isBeingHeld) Throw();
         else PickUp();
     }
     
     private void Drop() {
-        beingHeld = false;
+        isBeingHeld = false;
         _rigidbody.useGravity = true;
         
         if (_holdPoint) DestroyImmediate(_holdPoint);
     }
 
     private void PickUp() {
-        beingHeld = true;
+        isBeingHeld = true;
         _rigidbody.useGravity = false;
         _rigidbody.transform.position = playerController._camera.transform.TransformPoint(Vector3.forward * 2);
         _holdPoint = playerController.hand.gameObject.AddComponent<FixedJoint>();
-        _holdPoint.breakForce = breakForce;
+        _holdPoint.breakForce = _breakForce;
         _holdPoint.enableCollision = false;
         _holdPoint.connectedBody = _rigidbody;
     }
@@ -65,6 +64,6 @@ public class MovableObject : InteractableObject {
     }
     
     public override bool CanInteract(Transform interactTransform) {
-        return beingHeld || base.CanInteract(interactTransform);
+        return isBeingHeld || base.CanInteract(interactTransform);
     }
 }
