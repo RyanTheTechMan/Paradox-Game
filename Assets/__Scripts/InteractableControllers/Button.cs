@@ -11,18 +11,18 @@ public class Button : ActivatorObject
     private readonly float _defaultY = 0.15f;
     private readonly float _pressedY = 0.05f;
     
-    private bool _animating = false;
-    private GameObject buttonTop;
+    private bool _animating;
+    private GameObject _buttonTop;
     
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-        buttonTop = transform.GetChild(0).gameObject;
+        base.Awake();
+        _buttonTop = transform.GetChild(0).gameObject;
     }
     
     private void OnTriggerEnter (Collider other) {
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
-        if (!isActive) {
+        if (!IsActive) {
             Activate();
             UpdateActivation();
             Animate();
@@ -48,7 +48,7 @@ public class Button : ActivatorObject
         var t = 0f;
         while (t < 1f) {
             t += Time.deltaTime * 5f;
-            buttonTop.transform.localPosition = new Vector3(0, Mathf.Lerp(isActive ? _defaultY : _pressedY, isActive ? _pressedY : _defaultY, t), 0);
+            _buttonTop.transform.localPosition = new Vector3(0, Mathf.Lerp(IsActive ? _defaultY : _pressedY, IsActive ? _pressedY : _defaultY, t), 0);
             yield return null;
         }
         

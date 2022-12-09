@@ -92,9 +92,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void DoInteract(bool isPrimary) {
-        if (CursorController.selected) {
-            if (isPrimary) CursorController.selected.PrimaryInteract();
-            else CursorController.selected.SecondaryInteract();
+        if (CursorController.Selected) {
+            if (isPrimary) CursorController.Selected.PrimaryInteract();
+            else CursorController.Selected.SecondaryInteract();
         }
     }
 }
