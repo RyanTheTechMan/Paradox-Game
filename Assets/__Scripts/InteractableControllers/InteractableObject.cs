@@ -9,7 +9,7 @@ public class InteractableObject : MonoBehaviour {
     public virtual void SecondaryInteract() {throw new System.NotImplementedException();}
 
     protected virtual void Awake() {
-        playerController = FindObjectsOfType<PlayerController>().First();
+        playerController = PlayerController.Instance;
     }
     protected virtual void Start() {}
     protected virtual void Update() {}

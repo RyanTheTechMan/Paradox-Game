@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    public static PlayerController Instance;
+    
     public Camera _camera;
     private CharacterController _characterController;
 
@@ -28,6 +30,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Awake() {
+        if (Instance == null) Instance = this;
+        else {
+            Debug.LogWarning("More than one instance of PlayerController found! Destroying this one.");
+            Destroy(gameObject);
+            return;
+        }
         _characterController = GetComponent<CharacterController>();
         controls = new PlayerControls();
     }
