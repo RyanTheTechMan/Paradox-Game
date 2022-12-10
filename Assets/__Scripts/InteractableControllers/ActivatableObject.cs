@@ -9,6 +9,9 @@ public class ActivatableObject : InteractableObject {
     [SerializeField, Header("Trigger / Activatable when opposite is true")]
     protected bool inverted;
     
+    [SerializeField, Tooltip("Present object does not replicate state to future counterpart")]
+    protected bool preventReplication;
+    
     [SerializeField, Tooltip("When all activator objects ID are activated.")]
     private int _id;
     public int ID => _id; // Prevents changing ID in code
@@ -64,16 +67,17 @@ public class ActivatableObject : InteractableObject {
     protected virtual void Activate() { // Should only be called by Activator objects.
         IsActive = !inverted;
         PlaySound();
-        if (!isFutureCounterpart) CounterpartUpdate();
+        if (Counterpart && !isFutureCounterpart) CounterpartUpdate();
     }
     
     protected virtual void Deactivate() { // Should only be called by Activator objects.
         IsActive = inverted;
         PlaySound();
-        if (!isFutureCounterpart) CounterpartUpdate();
+        if (Counterpart && !isFutureCounterpart) CounterpartUpdate();
     }
 
     protected virtual void PlaySound() { // Called when state changes of an object.
+        if (transform.gameObject.layer == LayerMask.NameToLayer("Left Eye") && !playerController.handheldPortal.isPortalActive) return;
         if (IsActive) {
             if (_activateSound != null) _audioSource.PlayOneShot(_activateSound);
         } else {
@@ -88,6 +92,10 @@ public class ActivatableObject : InteractableObject {
         ActivatableObject obj = (ActivatableObject)Counterpart; // Future object
         obj._id = -_id;
         obj.inverted = inverted;
+        
+        if (preventReplication) {
+            obj.Deactivate();
+        } 
     }
 }
 

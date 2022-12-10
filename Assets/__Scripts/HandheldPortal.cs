@@ -83,7 +83,7 @@ public class HandheldPortal : MonoBehaviour {
 
     private void FixedUpdate() {
         if (isPortalActive) _camera.transform.position = _playerController.camera.transform.position;
-        
+
         _camera.fieldOfView = PlayerController.Instance.camera.fieldOfView * Mathf.Pow(-_camera.transform.localPosition.z, -1);
 
         // Move portal up or down if isPortalActive
