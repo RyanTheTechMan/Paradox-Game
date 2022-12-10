@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     public PlayerControls controls;
 
     public Rigidbody hand;
+    public MovableObject holdingObject;
 
     private void OnEnable() {
         controls.Enable();
