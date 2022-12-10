@@ -81,7 +81,7 @@ public class HandheldPortal : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (isPortalActive) _camera.transform.position = _playerController._camera.transform.position;
+        if (isPortalActive) _camera.transform.position = _playerController.camera.transform.position;
 
         // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;

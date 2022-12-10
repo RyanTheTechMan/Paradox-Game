@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -23,7 +24,9 @@ public class InteractableObject : MonoBehaviour {
 
     protected virtual void Start() {
         if (createCounterpart) { // TODO: Maybe move to OnEnable to solve some random issues
+            gameObject.SetActive(false);
             GameObject go = Instantiate(gameObject, transform.parent);
+            gameObject.SetActive(true);
             Counterpart = go.GetComponent<InteractableObject>();
             Counterpart.createCounterpart = false;
             Counterpart.isFutureCounterpart = true;
@@ -32,6 +35,8 @@ public class InteractableObject : MonoBehaviour {
             foreach (var child in Counterpart.transform.GetComponentsInChildren<Transform>(true)) {
                 child.gameObject.layer = _leftEyeLayer;
             }
+            
+            StartCoroutine(SetActive()); // Waits a frame
         }
     }
 
@@ -39,9 +44,7 @@ public class InteractableObject : MonoBehaviour {
         if (Counterpart) {
             if (!isFutureCounterpart)
                 if (_lastLocation != transform.localPosition) CounterpartUpdate();
-                _lastLocation = transform.localPosition;
-
-
+            _lastLocation = transform.localPosition;
         }
     }
 
@@ -54,5 +57,10 @@ public class InteractableObject : MonoBehaviour {
     protected virtual void CounterpartUpdate() {
         Counterpart.transform.localPosition = transform.localPosition;
         Counterpart.transform.localRotation = transform.localRotation;
+    }
+
+    private IEnumerator SetActive() {
+        yield return 0;
+        Counterpart.gameObject.SetActive(true);
     }
 }

@@ -33,9 +33,9 @@ public class CursorController : MonoBehaviour {
         }
         
         _playerController = PlayerController.Instance;
-        _camera = _playerController._camera;
+        _camera = _playerController.camera;
         
-        _handheldPortal = PlayerController.Instance._handheldPortal;
+        _handheldPortal = PlayerController.Instance.handheldPortal;
     }
 
     private void Update() {

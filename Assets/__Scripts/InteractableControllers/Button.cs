@@ -39,7 +39,7 @@ public class Button : ActivatorObject {
     
     private bool CanCollide(GameObject other) {
         if (other.layer == gameObject.layer) return true;
-        return (other.layer == playerController.playerLayer && other.layer != playerController._handheldPortal.nonInteractableLayer);
+        return (other.layer == playerController.playerLayer && other.layer != playerController.handheldPortal.nonInteractableLayer);
     }
 
     private void Animate() {

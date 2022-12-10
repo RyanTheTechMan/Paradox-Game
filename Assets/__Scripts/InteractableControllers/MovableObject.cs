@@ -50,7 +50,7 @@ public class MovableObject : InteractableObject {
     private void PickUp() {
         PlayerController.Instance.holdingObject = this;
         _rigidbody.useGravity = false;
-        _rigidbody.transform.position = playerController._camera.transform.TransformPoint(Vector3.forward * 2);
+        _rigidbody.transform.position = playerController.camera.transform.TransformPoint(Vector3.forward * 2);
         _holdPoint = playerController.hand.gameObject.AddComponent<FixedJoint>();
         _holdPoint.breakForce = _breakForce;
         _holdPoint.enableCollision = false;
@@ -74,6 +74,7 @@ public class MovableObject : InteractableObject {
         base.CounterpartUpdate();
         MovableObject obj = (MovableObject)Counterpart; // Future object
         Rigidbody futureRigidbody = obj._rigidbody;
+        if (futureRigidbody == null) return; // TODO: fixes errors. find another way to do this lmao
         futureRigidbody.velocity = _rigidbody.velocity;
         futureRigidbody.useGravity = _rigidbody.useGravity;
         futureRigidbody.isKinematic = _rigidbody.isKinematic;

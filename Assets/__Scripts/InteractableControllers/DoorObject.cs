@@ -16,10 +16,10 @@ public class DoorObject : ActivatableObject {
         _moveDistance = _leftDoor.GetComponent<BoxCollider>().size.x * 0.95f;
     }
     
-    protected override void OnActiveChange() {
+    protected override void OnActiveChange() { 
         StartCoroutine(DoAnimate());
     }
-    
+
     private IEnumerator DoAnimate() {
         const float speed = 2f;
         Vector3 pos = _leftDoor.localPosition;
@@ -37,6 +37,15 @@ public class DoorObject : ActivatableObject {
             _leftDoor.localPosition = pos;
             _rightDoor.localPosition = -pos;
             yield return null;
+        }
+    }
+    
+    protected override void CounterpartUpdate() {
+        base.CounterpartUpdate();
+        DoorObject obj = (DoorObject)Counterpart; // Future object
+        if (obj.IsActive != IsActive) {
+            obj.OnActiveChange();
+            obj.PlaySound();
         }
     }
 }

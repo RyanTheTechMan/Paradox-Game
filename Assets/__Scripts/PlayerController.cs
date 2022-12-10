@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour {
     public static PlayerController Instance;
     
-    public Camera _camera;
-    public CharacterController _characterController;
-    public HandheldPortal _handheldPortal;
+    public new Camera camera;
+    [NonSerialized] public CharacterController characterController;
+    [NonSerialized] public HandheldPortal handheldPortal;
     public int playerLayer;
 
     public float cameraSensitivity;
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour {
     public PlayerControls controls;
 
     public Rigidbody hand;
-    public MovableObject holdingObject;
+    [NonSerialized] public MovableObject holdingObject;
 
     private void OnEnable() {
         controls.Enable();
@@ -39,9 +40,10 @@ public class PlayerController : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        _characterController = GetComponent<CharacterController>();
-        _handheldPortal = GetComponentInChildren<HandheldPortal>();
         controls = new PlayerControls();
+        
+        characterController = GetComponent<CharacterController>();
+        handheldPortal = GetComponentInChildren<HandheldPortal>();
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Left Eye"), LayerMask.NameToLayer("Right Eye"));
         playerLayer = LayerMask.NameToLayer("Player");
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void DoPlayerMove() {
-        isGrounded = _characterController.isGrounded;
+        isGrounded = characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0) {
             playerVelocity.y = 0;
         }
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour {
         
         Vector3 move = transform.right * input.x + transform.forward * input.y;
         playerVelocity.y += Physics.gravity.y * Time.fixedDeltaTime;
-        _characterController.Move((move + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
+        characterController.Move((move + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
     }
     
     private void DoCameraMove() {
@@ -84,10 +86,10 @@ public class PlayerController : MonoBehaviour {
         float mouseY = mouseDelta.y * cameraSensitivity * Time.deltaTime;
     
         transform.transform.localRotation *= Quaternion.Euler(0f, mouseX, 0f);
-        _camera.transform.localRotation *= Quaternion.AngleAxis(mouseY, Vector3.left);
+        camera.transform.localRotation *= Quaternion.AngleAxis(mouseY, Vector3.left);
 
         // transform.Rotate(Vector3.up, mouseX, Space.Self);
-        // _camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
+        // camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
     }
 
     private void DoJump() {

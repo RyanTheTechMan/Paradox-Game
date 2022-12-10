@@ -45,7 +45,7 @@ public class ActivatableObject : InteractableObject {
     protected override void Awake() {
         base.Awake();
         _audioSource = GetComponent<AudioSource>();
-        ConfigureLinkedObjects(); // TODO: May not be needed.
+        ConfigureLinkedObjects();
     }
 
     protected void UpdateActivation() { // Must be called when the state of the activator objects change. (Separate function to account for animations)
