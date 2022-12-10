@@ -41,7 +41,7 @@ public class Button : ActivatorObject
     }
 
     private IEnumerator DoAnimate() {
-        const float speed = 1f;
+        const float speed = 0.1f;
         Vector3 pos = _buttonTop.localPosition;
         
         float startPos = pos.y;
