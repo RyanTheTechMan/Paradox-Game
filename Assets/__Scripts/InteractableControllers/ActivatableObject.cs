@@ -77,6 +77,7 @@ public class ActivatableObject : InteractableObject {
     }
 
     protected virtual void PlaySound() { // Called when state changes of an object.
+        if (transform.gameObject.layer == LayerMask.NameToLayer("Left Eye") && !playerController.handheldPortal.isPortalActive) return;
         if (IsActive) {
             if (_activateSound != null) _audioSource.PlayOneShot(_activateSound);
         } else {
