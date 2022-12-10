@@ -14,7 +14,7 @@ public class InteractableObject : MonoBehaviour {
     public virtual void SecondaryInteract() {throw new System.NotImplementedException();}
 
     protected virtual void Awake() {
-        playerController = FindObjectsOfType<PlayerController>().First();
+        playerController = PlayerController.Instance;
         _leftEyeLayer = LayerMask.NameToLayer("Left Eye");
     }
 

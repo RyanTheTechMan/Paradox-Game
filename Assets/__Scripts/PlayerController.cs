@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     public static PlayerController Instance;
+    
     public Camera _camera;
     public CharacterController _characterController;
     public int playerLayer;
@@ -31,14 +32,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
+        if (Instance == null) Instance = this;
         else {
-            Debug.LogWarning("There can only be one PlayerController in the scene.");
+            Debug.LogWarning("More than one instance of PlayerController found! Destroying this one.");
             Destroy(gameObject);
+            return;
         }
-        
         _characterController = GetComponent<CharacterController>();
         controls = new PlayerControls();
         

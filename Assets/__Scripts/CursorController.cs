@@ -28,14 +28,14 @@ public class CursorController : MonoBehaviour {
             Instance = this;
         }
         else {
-            Debug.LogWarning("There can only be one CursorController in the scene.");
+            Debug.LogWarning("There can only be one CursorController in the scene. Destroying this one.");
             Destroy(gameObject);
         }
         
-        _playerController = gameObject.GetComponentInParent<PlayerController>();
+        _playerController = PlayerController.Instance;
         _camera = _playerController._camera;
         
-        _handheldPortal = FindObjectsOfType<PlayerController>().First().GetComponentInChildren<HandheldPortal>();
+        _handheldPortal = PlayerController.Instance.GetComponentInChildren<HandheldPortal>();
     }
 
     private void Update() {

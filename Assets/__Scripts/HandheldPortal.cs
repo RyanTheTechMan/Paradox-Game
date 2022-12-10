@@ -12,7 +12,7 @@ public class HandheldPortal : MonoBehaviour {
     private RenderTexture _renderTexture;
     public RawImage cameraView;
 
-    private PlayerController _player;
+    private PlayerController _playerController;
     
     public Volume volume;
     private PaniniProjection _paniniProjection;
@@ -34,24 +34,23 @@ public class HandheldPortal : MonoBehaviour {
     private void OnEnable() {
         ResolutionChangeEvent.onResolutionChangedEnded += Awake;
         _camera.enabled = true;
-        _player.controls.FirstPerson.TogglePortal.performed += TogglePortal;
+        _playerController.controls.FirstPerson.TogglePortal.performed += TogglePortal;
         basePositionY = transform.localPosition.y;
     }
 
     private void OnDisable() {
         ResolutionChangeEvent.onResolutionChangedEnded -= Awake;
         _camera.enabled = true;
-        _player.controls.FirstPerson.TogglePortal.performed -= TogglePortal;
+        _playerController.controls.FirstPerson.TogglePortal.performed -= TogglePortal;
     }
 
     private void Awake() {
         _camera = GetComponentInChildren<Camera>();
+        _playerController = PlayerController.Instance;
         
         _renderTexture?.Release();
         _renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
         _renderTexture.Create();
-        
-        _player ??= GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 
         _camera.targetTexture = _renderTexture;
         cameraView.texture = _renderTexture;
@@ -81,7 +80,7 @@ public class HandheldPortal : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (isPortalActive) _camera.transform.position = _player._camera.transform.position;
+        if (isPortalActive) _camera.transform.position = _playerController._camera.transform.position;
 
         // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;

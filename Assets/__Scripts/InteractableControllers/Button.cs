@@ -11,12 +11,11 @@ public class Button : ActivatorObject
     private readonly float _defaultY = 0.15f;
     private readonly float _pressedY = 0.05f;
     
-    private bool _animating;
-    private GameObject _buttonTop;
+    private Transform _buttonTop;
     
     protected override void Awake() {
         base.Awake();
-        _buttonTop = transform.GetChild(0).gameObject;
+        _buttonTop = transform.GetChild(0);
     }
     
     private void OnTriggerEnter (Collider other) {
@@ -44,21 +43,26 @@ public class Button : ActivatorObject
     }
 
     private void Animate() {
-        if (!_animating) {
-            _animating = true;
-            StartCoroutine(DoAnimate());
-        }
+        StartCoroutine(DoAnimate());
     }
 
     private IEnumerator DoAnimate() {
-        var t = 0f;
-        while (t < 1f) {
-            t += Time.deltaTime * 5f;
-            _buttonTop.transform.localPosition = new Vector3(0, Mathf.Lerp(IsActive ? _defaultY : _pressedY, IsActive ? _pressedY : _defaultY, t), 0);
+        const float speed = 0.1f;
+        Vector3 pos = _buttonTop.localPosition;
+        
+        float startPos = pos.y;
+        float endPos = IsActive ? _defaultY - _pressedY : _defaultY;
+        float speedOffset = Mathf.Abs(startPos - endPos);
+        speedOffset = speed * (1 / speedOffset);
+        
+        float t = 0f;
+        bool animateState = IsActive;
+        while (t < 1f && animateState == IsActive) {
+            t += Time.deltaTime * speedOffset;
+            pos.y = Mathf.Lerp(startPos, endPos, t);
+            _buttonTop.localPosition = pos;
             yield return null;
         }
-        
-        _animating = false;
     }
     
 }
