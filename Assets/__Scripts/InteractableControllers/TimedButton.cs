@@ -58,9 +58,12 @@ public class TimedButton : ActivatorObject {
     }
 
     private void Countdown() {
-        if (--currentTime == 0) {
+        if (--currentTime < 0) {
             Deactivate();
+            return;
         }
+
+        _audioSource.PlayOneShot(_activateSound);
         _timer.text = currentTime.ToString();
     }
 
