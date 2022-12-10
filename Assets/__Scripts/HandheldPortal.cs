@@ -79,6 +79,7 @@ public class HandheldPortal : MonoBehaviour {
         _lensDistortion.yMultiplier.value = Mathf.Cos((Time.time - 8f)/6) * 0.3f + 0.5f;
     }
 
+    private void FixedUpdate() {
         if (isPortalActive) _camera.transform.position = _playerController._camera.transform.position;
 
         // Move portal up or down if isPortalActive
