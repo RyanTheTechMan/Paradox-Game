@@ -13,13 +13,13 @@ public class Button : ActivatorObject
     
     private Transform _buttonTop;
     
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
         _buttonTop = transform.GetChild(0);
     }
     
     private void OnTriggerEnter (Collider other) {
+        if (!canCollide(other)) return;
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
         if (!IsActive) {
             Activate();
@@ -27,7 +27,13 @@ public class Button : ActivatorObject
             Animate();
         }
     }
+
+    private bool canCollide(Collider other) {
+        return other.gameObject.layer == gameObject.layer;
+    }
+    
     private void OnTriggerExit (Collider other) {
+        if (!canCollide(other)) return;
         _objectsOnButton.Remove(other);
         if (_objectsOnButton.Count == 0) {
             Deactivate();

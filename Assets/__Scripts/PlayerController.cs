@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour {
         }
         _characterController = GetComponent<CharacterController>();
         controls = new PlayerControls();
+        
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Left Eye"), LayerMask.NameToLayer("Right Eye"));
     }
 
     private void Start() {

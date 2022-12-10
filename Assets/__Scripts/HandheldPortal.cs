@@ -6,8 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-public class HandheldPortal : MonoBehaviour
-{
+public class HandheldPortal : MonoBehaviour {
     private Camera _camera;
     
     private RenderTexture _renderTexture;
@@ -32,8 +31,7 @@ public class HandheldPortal : MonoBehaviour
     private int _layerPlayer;
     private int _layerDefault;
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         ResolutionChangeEvent.onResolutionChangedEnded += Awake;
         _camera.enabled = true;
         _playerController.controls.FirstPerson.TogglePortal.performed += TogglePortal;
@@ -74,7 +72,6 @@ public class HandheldPortal : MonoBehaviour
     }
 
     private void Update() {
-        
         // Apply post processing
         _paniniProjection.distance.value = Mathf.Sin(Time.time / 4f) * 0.1f + 0.3f;
         _lensDistortion.intensity.value = Mathf.Sin((Time.time - 3f)/3) * 0.35f;
@@ -82,12 +79,7 @@ public class HandheldPortal : MonoBehaviour
         _lensDistortion.yMultiplier.value = Mathf.Cos((Time.time - 8f)/6) * 0.3f + 0.5f;
     }
 
-    private void FixedUpdate()
-    {
         if (isPortalActive) _camera.transform.position = _playerController._camera.transform.position;
-        
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
 
         // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;
@@ -101,6 +93,12 @@ public class HandheldPortal : MonoBehaviour
     
     private void TogglePortal(InputAction.CallbackContext obj) {
         isPortalActive = !isPortalActive;
+        
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
+        
+        if (PlayerController.Instance.holdingObject) {
+            PlayerController.Instance.holdingObject.Drop();
+        }
     }
-
 }

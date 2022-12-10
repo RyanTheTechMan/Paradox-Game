@@ -40,7 +40,7 @@ public class MovableObject : InteractableObject {
         else PickUp();
     }
     
-    private void Drop() {
+    public void Drop() {
         PlayerController.Instance.holdingObject = null;
         _rigidbody.useGravity = true;
         
