@@ -49,18 +49,20 @@ public class ActivatableObject : InteractableObject {
         base.Awake();
         _audioSource = GetComponent<AudioSource>();
         ConfigureLinkedObjects();
+        IsActive = false;
     }
 
     protected void UpdateActivation() { // Must be called when the state of the activator objects change. (Separate function to account for animations)
         // for all Activators, if they are all active, set the isActive value and call the OnActiveChange() method on objects that are Activatable.
         bool allActive = GetActivators.TrueForAll(x => x.IsActive);
         if (allActive != _lastActiveState) {
+            GetActivators.ForEach(x => x._lastActiveState = allActive);
+            
             GetActivatable.ForEach(x => {
                 x.IsActive = x.inverted ? !allActive : allActive;
                 x.OnActiveChange();
                 x.PlaySound();
             });
-            _lastActiveState = allActive;
         }
     }
     
