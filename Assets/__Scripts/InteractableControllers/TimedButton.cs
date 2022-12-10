@@ -63,7 +63,7 @@ public class TimedButton : ActivatorObject {
             return;
         }
 
-        _audioSource.PlayOneShot(_activateSound);
+        PlaySound();
         _timer.text = currentTime.ToString();
     }
 

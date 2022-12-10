@@ -146,8 +146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 3
-  hasCounterpart: 0
+  createCounterpart: 0
   inverted: 0
+  preventReplication: 0
   _id: 1
   _activateSound: {fileID: 8300000, guid: 65c44e631a205d948a6266e198dda518, type: 3}
   _deactivateSound: {fileID: 8300000, guid: cafdf26939ca4d8459ae8fdb0b122d27, type: 3}
@@ -173,7 +174,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
