@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7046192010769780498}
   - component: {fileID: 7046192010769780497}
   - component: {fileID: 7046192010769780496}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7046192010799412154}
   - component: {fileID: 7046192010799412157}
   - component: {fileID: 7046192010799412156}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1267468925807805125}
   - component: {fileID: 1317928292969575839}
   - component: {fileID: 3740468422881205633}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 0
+  hasCounterpart: 0
   inverted: 0
   _id: 0
   _activateSound: {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}

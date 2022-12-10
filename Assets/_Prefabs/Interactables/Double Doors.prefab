@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6616495636704977550}
   - component: {fileID: 6616495636704977549}
   - component: {fileID: 6616495636704977548}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Left Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6616495636919488721}
   - component: {fileID: 6616495636919488722}
   - component: {fileID: 3498159008916410666}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Double Doors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 3
+  hasCounterpart: 0
   inverted: 0
   _id: 1
   _activateSound: {fileID: 8300000, guid: 65c44e631a205d948a6266e198dda518, type: 3}
@@ -259,7 +260,7 @@ GameObject:
   - component: {fileID: 6616495637291695869}
   - component: {fileID: 6616495637290626523}
   - component: {fileID: 6616495637294847653}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Right Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}

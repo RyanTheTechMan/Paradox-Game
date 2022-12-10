@@ -82,9 +82,6 @@ public class HandheldPortal : MonoBehaviour {
 
     private void FixedUpdate() {
         if (isPortalActive) _camera.transform.position = _player._camera.transform.position;
-        
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
 
         // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;
@@ -98,6 +95,10 @@ public class HandheldPortal : MonoBehaviour {
     
     private void TogglePortal(InputAction.CallbackContext obj) {
         isPortalActive = !isPortalActive;
+        
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
+        
         if (PlayerController.Instance.holdingObject) {
             PlayerController.Instance.holdingObject.Drop();
         }

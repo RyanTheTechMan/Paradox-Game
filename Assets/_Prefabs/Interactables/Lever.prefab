@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8880126673049199268}
   - component: {fileID: 8880126673049199275}
   - component: {fileID: 1323559809454786675}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 3
+  hasCounterpart: 0
   inverted: 0
   _id: 2
   _activateSound: {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
@@ -177,7 +178,7 @@ GameObject:
   - component: {fileID: 8880126673254012683}
   - component: {fileID: 8880126673254012680}
   - component: {fileID: 8880126673254012681}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8880126673534613043}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +294,7 @@ GameObject:
   - component: {fileID: 8880126673873657663}
   - component: {fileID: 8880126673873657660}
   - component: {fileID: 8880126673873657661}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +378,7 @@ GameObject:
   - component: {fileID: 8880126674372420623}
   - component: {fileID: 8880126674372420616}
   - component: {fileID: 8880126674372420617}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,7 +475,7 @@ GameObject:
   - component: {fileID: 8880126674713735262}
   - component: {fileID: 8880126674713735263}
   - component: {fileID: 8880126674713735256}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
