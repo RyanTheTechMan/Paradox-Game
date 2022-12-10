@@ -30,6 +30,7 @@ public class HandheldPortal : MonoBehaviour {
     private int _layerLeftEye;
     private int _layerPlayer;
     private int _layerDefault;
+    public int nonInteractableLayer;
 
     private void OnEnable() {
         ResolutionChangeEvent.onResolutionChangedEnded += Awake;
@@ -97,6 +98,7 @@ public class HandheldPortal : MonoBehaviour {
         
         Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
         Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
+        nonInteractableLayer = isPortalActive ? -1 : _layerLeftEye;
         
         if (PlayerController.Instance.holdingObject) {
             PlayerController.Instance.holdingObject.Drop();

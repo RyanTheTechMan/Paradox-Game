@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Button : ActivatorObject
-{
+public class Button : ActivatorObject {
     // When object is on the button, it will be activated, only once all objects are off the button, it will be deactivated
     private readonly List<Collider> _objectsOnButton = new List<Collider>();
 
@@ -19,7 +18,7 @@ public class Button : ActivatorObject
     }
     
     private void OnTriggerEnter (Collider other) {
-        if (!canCollide(other)) return;
+        if (!CanCollide(other.gameObject)) return;
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
         if (!IsActive) {
             Activate();
@@ -28,18 +27,19 @@ public class Button : ActivatorObject
         }
     }
 
-    private bool canCollide(Collider other) {
-        return other.gameObject.layer == gameObject.layer;
-    }
-    
     private void OnTriggerExit (Collider other) {
-        if (!canCollide(other)) return;
+        if (!CanCollide(other.gameObject)) return;
         _objectsOnButton.Remove(other);
         if (_objectsOnButton.Count == 0) {
             Deactivate();
             UpdateActivation();
             Animate();
         }
+    }
+    
+    private bool CanCollide(GameObject other) {
+        if (other.layer == gameObject.layer) return true;
+        return (other.layer == playerController.playerLayer && other.layer != playerController._handheldPortal.nonInteractableLayer);
     }
 
     private void Animate() {

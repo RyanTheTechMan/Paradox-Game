@@ -5,7 +5,9 @@ public class PlayerController : MonoBehaviour {
     public static PlayerController Instance;
     
     public Camera _camera;
-    private CharacterController _characterController;
+    public CharacterController _characterController;
+    public HandheldPortal _handheldPortal;
+    public int playerLayer;
 
     public float cameraSensitivity;
     public float playerSpeed;
@@ -38,9 +40,11 @@ public class PlayerController : MonoBehaviour {
             return;
         }
         _characterController = GetComponent<CharacterController>();
+        _handheldPortal = GetComponentInChildren<HandheldPortal>();
         controls = new PlayerControls();
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Left Eye"), LayerMask.NameToLayer("Right Eye"));
+        playerLayer = LayerMask.NameToLayer("Player");
     }
 
     private void Start() {
