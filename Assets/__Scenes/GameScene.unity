@@ -2554,6 +2554,16 @@ PrefabInstance:
       propertyPath: createCounterpart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7055029596832098051, guid: 091bfc7bbcca977418a1a58e7250ded8,
+        type: 3}
+      propertyPath: preventReplication
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055029596832098051, guid: 091bfc7bbcca977418a1a58e7250ded8,
+        type: 3}
+      propertyPath: replicatesToCounterpart
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 091bfc7bbcca977418a1a58e7250ded8, type: 3}

@@ -9,6 +9,9 @@ public class ActivatableObject : InteractableObject {
     [SerializeField, Header("Trigger / Activatable when opposite is true")]
     protected bool inverted;
     
+    [SerializeField, Tooltip("Present object does not replicate state to future counterpart")]
+    protected bool preventReplication;
+    
     [SerializeField, Tooltip("When all activator objects ID are activated.")]
     private int _id;
     public int ID => _id; // Prevents changing ID in code
@@ -88,6 +91,10 @@ public class ActivatableObject : InteractableObject {
         ActivatableObject obj = (ActivatableObject)Counterpart; // Future object
         obj._id = -_id;
         obj.inverted = inverted;
+        
+        if (preventReplication) {
+            obj.Deactivate();
+        } 
     }
 }
 

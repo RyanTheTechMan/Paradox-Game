@@ -28,26 +28,24 @@ public class TimedButton : ActivatorObject {
     }
 
     public override void PrimaryInteract() {
-        if (IsActive) {
-            EndTimer();
-            Deactivate();
-        }
-        else {
-            StartTimer();
-            Activate();
-        }
+        if (IsActive) Deactivate();
+        else Activate();
+    }
+
+    protected override void Activate() {
+        base.Activate();
+        currentTime = activationTime + 1;
+        InvokeRepeating("Countdown", 0, 1.0f); 
         
         Animate();
     }
 
-    private void StartTimer() {
-        currentTime = activationTime + 1;
-        InvokeRepeating("Countdown", 0, 1.0f); 
-    }
-
-    private void EndTimer() {
+    protected override void Deactivate() {
+        base.Deactivate();
         _timer.text = _placeHolderText;
         CancelInvoke("Countdown");
+        
+        Animate();
     }
     
     public override void SecondaryInteract() { }
@@ -61,9 +59,7 @@ public class TimedButton : ActivatorObject {
 
     private void Countdown() {
         if (--currentTime == 0) {
-            CancelInvoke("Countdown");
             Deactivate();
-            Animate();
         }
         _timer.text = currentTime.ToString();
     }
