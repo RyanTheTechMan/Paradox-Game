@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public new Camera camera;
     [NonSerialized] public CharacterController characterController;
     [NonSerialized] public HandheldPortal handheldPortal;
-    public int playerLayer;
+    [NonSerialized] public int playerLayer;
 
     public float cameraSensitivity;
     public float playerSpeed;
