@@ -9,8 +9,8 @@ public class MovableObject : InteractableObject {
     public bool canPush;
     public bool canHold;
 
-    public bool isBeingHeld { get; protected set; }
-
+    public bool isBeingHeld => PlayerController.Instance.holdingObject == this;
+    
     private FixedJoint _holdPoint;
     
     public AudioClip[] pushSounds;
@@ -41,14 +41,14 @@ public class MovableObject : InteractableObject {
     }
     
     private void Drop() {
-        isBeingHeld = false;
+        PlayerController.Instance.holdingObject = null;
         _rigidbody.useGravity = true;
         
         if (_holdPoint) DestroyImmediate(_holdPoint);
     }
 
     private void PickUp() {
-        isBeingHeld = true;
+        PlayerController.Instance.holdingObject = this;
         _rigidbody.useGravity = false;
         _rigidbody.transform.position = playerController._camera.transform.TransformPoint(Vector3.forward * 2);
         _holdPoint = playerController.hand.gameObject.AddComponent<FixedJoint>();
@@ -64,6 +64,9 @@ public class MovableObject : InteractableObject {
     }
     
     public override bool CanInteract(Transform interactTransform) {
-        return isBeingHeld || base.CanInteract(interactTransform);
+        if (isBeingHeld) return true;
+        if (PlayerController.Instance.holdingObject) return false;
+        
+        return base.CanInteract(interactTransform);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    public static PlayerController Instance;
     public Camera _camera;
     private CharacterController _characterController;
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     public PlayerControls controls;
 
     public Rigidbody hand;
+    public MovableObject holdingObject;
 
     private void OnEnable() {
         controls.Enable();
@@ -28,6 +30,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        }
+        else {
+            Debug.LogWarning("There can only be one PlayerController in the scene.");
+            Destroy(gameObject);
+        }
+        
         _characterController = GetComponent<CharacterController>();
         controls = new PlayerControls();
     }
