@@ -55,8 +55,14 @@ public class InteractableObject : MonoBehaviour {
     }
 
     protected virtual void CounterpartUpdate() {
-        Counterpart.transform.localPosition = transform.localPosition;
-        Counterpart.transform.localRotation = transform.localRotation;
+        Transform counterpartTransform = Counterpart.transform;
+        
+        if ((counterpartTransform.position - transform.position).magnitude > 1) {
+            Instantiate(GameManager.Instance.destroyObjectParticles, counterpartTransform.position, transform.rotation);
+        }
+        
+        counterpartTransform.localPosition = transform.localPosition;
+        counterpartTransform.localRotation = transform.localRotation;
     }
 
     private IEnumerator SetActive() {
