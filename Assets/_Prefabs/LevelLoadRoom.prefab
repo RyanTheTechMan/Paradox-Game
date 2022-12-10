@@ -34,7 +34,7 @@ Transform:
   - {fileID: 6665378951314515622}
   - {fileID: 6665378950840186270}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3289943366157729142
 PrefabInstance:
@@ -52,7 +52,7 @@ PrefabInstance:
     - target: {fileID: 6616495636919488720, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
       propertyPath: m_Name
-      value: Exit Doors
+      value: Enter New Level Doors
       objectReference: {fileID: 0}
     - target: {fileID: 6616495636919488720, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
@@ -119,6 +119,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6616495636919488722, guid: a7854755d33c5d6439df00b6025ba826,
+        type: 3}
+      propertyPath: _id
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 6616495637288469973, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
       propertyPath: m_Layer
@@ -149,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 6616495636919488720, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
       propertyPath: m_Name
-      value: Enter Doors
+      value: Exit Level Doors
       objectReference: {fileID: 0}
     - target: {fileID: 6616495636919488720, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
@@ -215,6 +220,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616495636919488722, guid: a7854755d33c5d6439df00b6025ba826,
+        type: 3}
+      propertyPath: _id
+      value: 1001
       objectReference: {fileID: 0}
     - target: {fileID: 6616495637288469973, guid: a7854755d33c5d6439df00b6025ba826,
         type: 3}
