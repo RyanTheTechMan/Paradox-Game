@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour {
     public static PlayerController Instance;
     public Camera _camera;
     public CharacterController _characterController;
+    public int playerLayer;
 
     public float cameraSensitivity;
     public float playerSpeed;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour {
         controls = new PlayerControls();
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Left Eye"), LayerMask.NameToLayer("Right Eye"));
+        playerLayer = LayerMask.NameToLayer("Player");
     }
 
     private void Start() {

@@ -20,7 +20,7 @@ public class Button : ActivatorObject
     }
     
     private void OnTriggerEnter (Collider other) {
-        if (!canCollide(other)) return;
+        if (!CanCollide(other.gameObject)) return;
         if (!_objectsOnButton.Contains(other)) _objectsOnButton.Add(other);
         if (!IsActive) {
             Activate();
@@ -29,18 +29,18 @@ public class Button : ActivatorObject
         }
     }
 
-    private bool canCollide(Collider other) {
-        return other.gameObject.layer == gameObject.layer;
-    }
-    
     private void OnTriggerExit (Collider other) {
-        if (!canCollide(other)) return;
+        if (!CanCollide(other.gameObject)) return;
         _objectsOnButton.Remove(other);
         if (_objectsOnButton.Count == 0) {
             Deactivate();
             UpdateActivation();
             Animate();
         }
+    }
+    
+    private bool CanCollide(GameObject other) {
+        return other.layer == gameObject.layer || other.layer == playerController.playerLayer;
     }
 
     private void Animate() {
