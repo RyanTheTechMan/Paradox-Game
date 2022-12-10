@@ -228,7 +228,7 @@ Transform:
   - {fileID: 7046192010769780498}
   - {fileID: 7046192010799412159}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7046192010946421396
 MonoBehaviour:
@@ -260,8 +260,8 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.5
+  m_Pitch: 0.35
   Loop: 0
   Mute: 0
   Spatialize: 0
