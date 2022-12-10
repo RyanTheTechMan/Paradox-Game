@@ -89,10 +89,14 @@ public class HandheldPortal : MonoBehaviour {
         Vector3 rot = transform.localRotation.eulerAngles;
         rot.z = Mathf.Lerp(rot.z, isPortalActive ? rotationUp : rotationDown, Time.fixedUnscaledDeltaTime * 1f);
         transform.localRotation = Quaternion.Euler(rot);
-        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
+        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 2f);
 
-        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 1.5f);
+        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 2f);
         transform.localPosition = new Vector3(transform.localPosition.x, basePositionY - distanceMoved, transform.localPosition.z);
+
+        foreach (Transform child in transform) { // Show or hide portal components when portal is shown or hidden
+            child.gameObject.SetActive(transform.localPosition.y > -1.4f);
+        }
     }
     
     private void TogglePortal(InputAction.CallbackContext obj) {
