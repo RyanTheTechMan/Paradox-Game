@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     
     public Camera _camera;
     public CharacterController _characterController;
+    public HandheldPortal _handheldPortal;
     public int playerLayer;
 
     public float cameraSensitivity;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour {
             return;
         }
         _characterController = GetComponent<CharacterController>();
+        _handheldPortal = GetComponentInChildren<HandheldPortal>();
         controls = new PlayerControls();
         
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Left Eye"), LayerMask.NameToLayer("Right Eye"));
