@@ -1565,6 +1565,11 @@ PrefabInstance:
       propertyPath: hasCounterpart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5232776890338049856, guid: 957f257beef79654e91e6e1d02e56573,
+        type: 3}
+      propertyPath: createCounterpart
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 957f257beef79654e91e6e1d02e56573, type: 3}
@@ -2316,6 +2321,11 @@ PrefabInstance:
     - target: {fileID: 8880126673049199268, guid: fe02a676cb0bad64abc5b03f9206fb81,
         type: 3}
       propertyPath: hasCounterpart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880126673049199268, guid: fe02a676cb0bad64abc5b03f9206fb81,
+        type: 3}
+      propertyPath: createCounterpart
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8880126673049199269, guid: fe02a676cb0bad64abc5b03f9206fb81,

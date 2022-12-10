@@ -65,4 +65,14 @@ public class Button : ActivatorObject
         }
     }
     
+    protected override void CounterpartUpdate() {
+        base.CounterpartUpdate();
+        Button obj = (Button)Counterpart; // Future object
+        if (obj.IsActive != IsActive) {
+            if (IsActive) obj.Activate();
+            else obj.Deactivate();
+            obj.UpdateActivation();
+            obj.Animate();
+        }
+    }
 }

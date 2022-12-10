@@ -10,7 +10,7 @@ public class InteractableObject : MonoBehaviour {
     
     private int _leftEyeLayer;
     private Vector3 _lastLocation;
-    protected InteractableObject _counterpart;
+    protected InteractableObject Counterpart;
     
     protected PlayerController playerController;
     public virtual void PrimaryInteract() {throw new System.NotImplementedException();}
@@ -24,23 +24,24 @@ public class InteractableObject : MonoBehaviour {
     protected virtual void Start() {
         if (createCounterpart) { // TODO: Maybe move to OnEnable to solve some random issues
             GameObject go = Instantiate(gameObject, transform.parent);
-            _counterpart = go.GetComponent<InteractableObject>();
-            _counterpart.createCounterpart = false;
-            _counterpart.isFutureCounterpart = true;
-            _counterpart._counterpart = this;
+            Counterpart = go.GetComponent<InteractableObject>();
+            Counterpart.createCounterpart = false;
+            Counterpart.isFutureCounterpart = true;
+            Counterpart.Counterpart = this;
             
-            foreach (var child in _counterpart.transform.GetComponentsInChildren<Transform>(true)) {
+            foreach (var child in Counterpart.transform.GetComponentsInChildren<Transform>(true)) {
                 child.gameObject.layer = _leftEyeLayer;
             }
         }
     }
 
     protected virtual void Update() {
-        if (_counterpart) {
-            if (isFutureCounterpart) UpdateFutureCounterpart();
-            else if (_lastLocation != transform.localPosition) UpdatePresentCounterpart();
+        if (Counterpart) {
+            if (!isFutureCounterpart)
+                if (_lastLocation != transform.localPosition) CounterpartUpdate();
+                _lastLocation = transform.localPosition;
 
-            _lastLocation = transform.localPosition;
+
         }
     }
 
@@ -49,11 +50,9 @@ public class InteractableObject : MonoBehaviour {
     public virtual bool CanInteract(Transform interactTransform) {
         return interactionDistance > 0 && ((transform.position - interactTransform.position).magnitude <= interactionDistance);
     }
-    
-    protected virtual void UpdateFutureCounterpart() {}
-    
-    protected virtual void UpdatePresentCounterpart() {
-        _counterpart.transform.localPosition = transform.localPosition;
-        _counterpart.transform.localRotation = transform.localRotation;
+
+    protected virtual void CounterpartUpdate() {
+        Counterpart.transform.localPosition = transform.localPosition;
+        Counterpart.transform.localRotation = transform.localRotation;
     }
 }

@@ -10,8 +10,8 @@ public class ActivatableObject : InteractableObject {
     protected bool inverted;
     
     [SerializeField, Tooltip("When all activator objects ID are activated.")]
-    private uint _id;
-    public uint ID => _id; // Prevents changing ID in code
+    private int _id;
+    public int ID => _id; // Prevents changing ID in code
     
     protected AudioSource _audioSource;
     [SerializeField] protected AudioClip _activateSound;
@@ -64,11 +64,13 @@ public class ActivatableObject : InteractableObject {
     protected virtual void Activate() { // Should only be called by Activator objects.
         IsActive = !inverted;
         PlaySound();
+        if (!isFutureCounterpart) CounterpartUpdate();
     }
     
     protected virtual void Deactivate() { // Should only be called by Activator objects.
         IsActive = inverted;
         PlaySound();
+        if (!isFutureCounterpart) CounterpartUpdate();
     }
 
     protected virtual void PlaySound() { // Called when state changes of an object.
@@ -80,6 +82,13 @@ public class ActivatableObject : InteractableObject {
     }
 
     protected virtual void OnActiveChange() {throw new NotImplementedException();} // Only calls when not an Activator object.
+    
+    protected override void CounterpartUpdate() {
+        base.CounterpartUpdate();
+        ActivatableObject obj = (ActivatableObject)Counterpart; // Future object
+        obj._id = -_id;
+        obj.inverted = inverted;
+    }
 }
 
 #if UNITY_EDITOR

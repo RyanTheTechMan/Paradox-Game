@@ -70,9 +70,10 @@ public class MovableObject : InteractableObject {
         return base.CanInteract(interactTransform);
     }
 
-    protected override void UpdatePresentCounterpart() {
-        base.UpdatePresentCounterpart();
-        Rigidbody futureRigidbody = ((MovableObject)_counterpart)._rigidbody;
+    protected override void CounterpartUpdate() {
+        base.CounterpartUpdate();
+        MovableObject obj = (MovableObject)Counterpart; // Future object
+        Rigidbody futureRigidbody = obj._rigidbody;
         futureRigidbody.velocity = _rigidbody.velocity;
         futureRigidbody.useGravity = _rigidbody.useGravity;
         futureRigidbody.isKinematic = _rigidbody.isKinematic;

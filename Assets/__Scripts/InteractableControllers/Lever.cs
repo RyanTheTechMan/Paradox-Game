@@ -56,4 +56,15 @@ public class Lever : ActivatorObject {
     public override bool CanInteract(Transform interactTransform) {
         return !_animating && base.CanInteract(interactTransform);
     }
+    
+    protected override void CounterpartUpdate() {
+        base.CounterpartUpdate();
+        Lever obj = (Lever)Counterpart; // Future object
+        if (obj.IsActive != IsActive) {
+            if (IsActive) obj.Activate();
+            else obj.Deactivate();
+            obj.UpdateActivation();
+            obj.Animate();
+        }
+    }
 }
