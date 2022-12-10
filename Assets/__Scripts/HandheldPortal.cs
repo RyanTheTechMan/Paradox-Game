@@ -17,7 +17,7 @@ public class HandheldPortal : MonoBehaviour {
     public Volume volume;
     private PaniniProjection _paniniProjection;
     private LensDistortion _lensDistortion;
-    
+
     [NonSerialized]
     public bool isPortalActive;
 
@@ -46,7 +46,8 @@ public class HandheldPortal : MonoBehaviour {
     }
 
     private void Awake() {
-        _camera = GetComponentInChildren<Camera>();
+        _camera = GetComponentInChildren<Camera>(true);
+        _camera.gameObject.SetActive(true); // Disabled by default to fix issues with looking at game in the editor
         _playerController = PlayerController.Instance;
         
         _renderTexture?.Release();

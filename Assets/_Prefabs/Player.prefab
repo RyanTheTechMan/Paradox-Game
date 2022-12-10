@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6467bacb65ae48e4eb08d3af462a194d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 8156133135728508516}
   playerLayer: 0
   cameraSensitivity: 15
   playerSpeed: 4
@@ -813,10 +813,6 @@ PrefabInstance:
     - target: {fileID: 179993624, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
       propertyPath: m_VolumeLayerMask.m_Bits
       value: 8388608
-      objectReference: {fileID: 0}
-    - target: {fileID: 179993625, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 179993625, guid: 39f44ac9b8d8794498697347369837b1, type: 3}
       propertyPath: m_CullingMask.m_Bits
