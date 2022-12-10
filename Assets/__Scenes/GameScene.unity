@@ -2552,6 +2552,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7051311444574161283, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.02
+      objectReference: {fileID: 0}
     - target: {fileID: 7678807559805670201, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_IsActive
@@ -2572,9 +2577,24 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8156133135536880139, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156133135536880139, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8156133135728508513, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156133135728508516, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135728508516, guid: 9ea213599bfddcb45904c5932252337a,
@@ -2654,8 +2674,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156133136356125743, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156133136356125743, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 2164329207
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553598183509272939, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

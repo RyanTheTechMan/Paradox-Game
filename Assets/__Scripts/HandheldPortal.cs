@@ -84,8 +84,6 @@ public class HandheldPortal : MonoBehaviour {
         if (isPortalActive) _camera.transform.position = _playerController.camera.transform.position;
         
         _camera.fieldOfView = PlayerController.Instance.camera.fieldOfView * Mathf.Pow(-_camera.transform.localPosition.z, -1);
-        
-        //transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, Mathf.Sin(Time.time) * 0.5f + 2); // TODO: Remove this
 
         // Move portal up or down if isPortalActive
         Vector3 rot = transform.localRotation.eulerAngles;

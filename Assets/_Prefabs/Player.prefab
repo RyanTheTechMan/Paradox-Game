@@ -616,7 +616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6467bacb65ae48e4eb08d3af462a194d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 8156133135202938202}
+  camera: {fileID: 0}
+  playerLayer: 0
   cameraSensitivity: 15
   playerSpeed: 4
   jumpForce: 1.5
@@ -844,6 +845,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 541588526769764701, guid: 39f44ac9b8d8794498697347369837b1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 541588526769764701, guid: 39f44ac9b8d8794498697347369837b1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
       propertyPath: m_RootOrder
@@ -853,16 +864,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.437
-      objectReference: {fileID: 0}
-    - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.93
       objectReference: {fileID: 0}
     - target: {fileID: 1219118400644290997, guid: 39f44ac9b8d8794498697347369837b1,
         type: 3}
