@@ -64,13 +64,13 @@ public class ActivatableObject : InteractableObject {
     protected virtual void Activate() { // Should only be called by Activator objects.
         IsActive = !inverted;
         PlaySound();
-        if (!isFutureCounterpart) CounterpartUpdate();
+        if (Counterpart && !isFutureCounterpart) CounterpartUpdate();
     }
     
     protected virtual void Deactivate() { // Should only be called by Activator objects.
         IsActive = inverted;
         PlaySound();
-        if (!isFutureCounterpart) CounterpartUpdate();
+        if (Counterpart && !isFutureCounterpart) CounterpartUpdate();
     }
 
     protected virtual void PlaySound() { // Called when state changes of an object.
