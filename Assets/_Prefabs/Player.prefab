@@ -619,7 +619,7 @@ MonoBehaviour:
   camera: {fileID: 8156133135202938202}
   cameraSensitivity: 15
   playerSpeed: 4
-  jumpForce: 1.5
+  jumpForce: 0.8
   pushForce: 3
   throwForce: 8
   hand: {fileID: 8156133134851300835}
