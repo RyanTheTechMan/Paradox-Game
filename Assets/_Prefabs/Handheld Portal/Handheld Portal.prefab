@@ -65,7 +65,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147680503
+    m_Bits: 2164329207
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: dee17e38d7d9ab34fbce3acc6570eff5, type: 2}
   m_TargetDisplay: 0
@@ -569,7 +569,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraView: {fileID: 2072062526}
   volume: {fileID: 6866533543593349279}
-  nonInteractableLayer: 0
 --- !u!114 &5425654938095709994
 MonoBehaviour:
   m_ObjectHideFlags: 0
