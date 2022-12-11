@@ -18,8 +18,7 @@ public class HandheldPortal : MonoBehaviour {
     private PaniniProjection _paniniProjection;
     private LensDistortion _lensDistortion;
 
-    [NonSerialized]
-    public bool isPortalActive;
+    [NonSerialized] public bool isPortalActive;
 
     private const float rotationUp = 0f;
     private const float rotationDown = 45f;

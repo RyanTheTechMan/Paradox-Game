@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     [NonSerialized] public CharacterController characterController;
     [NonSerialized] public HandheldPortal handheldPortal;
     [NonSerialized] public int playerLayer;
-
+    
     public float cameraSensitivity;
     public float playerSpeed;
     public float jumpForce;
@@ -26,8 +26,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 playerVelocity;
     private bool isGrounded;
 
-    [NonSerialized]
-    public PlayerControls controls;
+    [NonSerialized] public PlayerControls controls;
 
     public Rigidbody hand;
     [NonSerialized] public MovableObject holdingObject;
