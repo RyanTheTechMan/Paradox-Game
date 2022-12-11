@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MovableObject : InteractableObject {
@@ -13,13 +14,15 @@ public class MovableObject : InteractableObject {
     public bool isBeingHeld => PlayerController.Instance.holdingObject == this;
     
     private FixedJoint _holdPoint;
-    
-    public AudioClip[] pushSounds;
-    public AudioClip[] dropSounds;
+
+    private AudioSource _audioSource;
+    public AudioClip[] pickupSounds;
+    public AudioClip[] collideSounds;
 
     protected override void Awake() {
         base.Awake();
         _rigidbody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     protected override void Update() {
@@ -49,6 +52,7 @@ public class MovableObject : InteractableObject {
     }
 
     private void PickUp() {
+        PlayClipFrom(pickupSounds);
         PlayerController.Instance.holdingObject = this;
         _rigidbody.useGravity = false;
         _rigidbody.transform.position = playerController.camera.transform.TransformPoint(Vector3.forward * 2);
@@ -89,5 +93,17 @@ public class MovableObject : InteractableObject {
         
         counterpartTransform.localPosition = transform.localPosition;
         counterpartTransform.localRotation = transform.localRotation;
+    }
+
+    private void PlayClipFrom(AudioClip[] clips) {
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        _audioSource.volume = Random.Range(0.15f, 0.25f);
+        _audioSource.pitch = Random.Range(0.8f, 1.0f);
+        _audioSource.PlayOneShot(clip);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (gameObject.layer == playerController.handheldPortal.nonInteractableLayer && !playerController.handheldPortal.isPortalActive) return;
+        PlayClipFrom(collideSounds);
     }
 }

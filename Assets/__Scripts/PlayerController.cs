@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour {
     public static PlayerController Instance;
@@ -9,7 +10,7 @@ public class PlayerController : MonoBehaviour {
     [NonSerialized] public CharacterController characterController;
     [NonSerialized] public HandheldPortal handheldPortal;
     [NonSerialized] public int playerLayer;
-    
+
     public float cameraSensitivity;
     public float playerSpeed;
     public float jumpForce;
@@ -28,8 +29,12 @@ public class PlayerController : MonoBehaviour {
 
     [NonSerialized] public PlayerControls controls;
 
-    public Rigidbody hand;
+    public Rigidbody hand; 
     [NonSerialized] public MovableObject holdingObject;
+    
+    public AudioSource footstepSource;
+    public AudioClip[] footstepClips;
+    private bool shouldFootstep = false;
 
     private void OnEnable() {
         controls?.Enable();
@@ -111,6 +116,15 @@ public class PlayerController : MonoBehaviour {
             _viewBobTimer += playerSpeed * Time.fixedDeltaTime * 3;
             camera.transform.localPosition = new Vector3(cameraPos.x, Mathf.Sin(_viewBobTimer) * _viewBobbingIntensity, cameraPos.z);
             camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Sin(_viewBobTimer / 2) * _viewBobbingIntensity);
+
+            float footfall = Mathf.Cos(_viewBobTimer);
+            if (footfall < 0 && shouldFootstep && isGrounded) DoFootstepSound();
+
+            shouldFootstep = footfall >= 0;
+            
+            if (_viewBobTimer > Math.PI * 2) {
+                _viewBobTimer -= (float)Math.PI * 2;
+            }
         }
         else { // is idle
             _viewBobTimer = 0;
@@ -140,5 +154,12 @@ public class PlayerController : MonoBehaviour {
             if (isPrimary) CursorController.Selected.PrimaryInteract();
             else CursorController.Selected.SecondaryInteract();
         }
+    }
+
+    private void DoFootstepSound() {
+        AudioClip footstep = footstepClips[Random.Range(0, footstepClips.Length)];
+        footstepSource.pitch = Random.Range(0.5f, 0.6f);
+        footstepSource.volume = Random.Range(0.8f, 1.2f);
+        footstepSource.PlayOneShot(footstep);
     }
 }
