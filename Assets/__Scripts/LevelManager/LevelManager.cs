@@ -65,7 +65,9 @@ public class LevelManager : MonoBehaviour {
 
     private void Start() {
         if (_levelID != 0) { // If we are in a level. Set up the level load room(s)
-            SetupNewLevelEntrance();
+            if (_startPoint.gameObject.activeInHierarchy) { // If there is no start door then this must be the first level
+                SetupNewLevelEntrance();
+            }
             SetupNewLevelExit();
         }
     }
@@ -158,6 +160,9 @@ public class LevelManager : MonoBehaviour {
             }
             
             Debug.Log("Done!");
+        }
+        else {
+            Debug.LogWarning("There are no more levels to load.");
         }
     }
 }

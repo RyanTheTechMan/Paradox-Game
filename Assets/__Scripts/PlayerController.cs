@@ -32,17 +32,17 @@ public class PlayerController : MonoBehaviour {
     [NonSerialized] public MovableObject holdingObject;
 
     private void OnEnable() {
-        controls.Enable();
+        controls?.Enable();
     }
     
     private void OnDisable() {
-        controls.Disable();
+        controls?.Disable();
     }
 
     void Awake() {
         if (Instance) {
             Debug.LogWarning("More than one instance of PlayerController found! Destroying this one.");
-            DestroyImmediate(gameObject);
+            gameObject.SetActive(false);
             return;
         }
 
