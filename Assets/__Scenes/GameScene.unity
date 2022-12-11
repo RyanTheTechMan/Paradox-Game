@@ -2568,6 +2568,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8156133135919896100, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
+      propertyPath: viewBobbingIntensity
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896103, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_RootOrder
