@@ -39,8 +39,9 @@ public class LevelManager : MonoBehaviour {
         // If LevelManager is not already set, set it. One per level.
         if (Instance) {
             Debug.LogWarning("LevelManager already exists. Disabling duplicate.");
-            Instance.gameObject.SetActive(false);
-
+            // Instance.gameObject.SetActive(false);
+            Destroy(Instance.gameObject);
+            
             // GameObject go = Instantiate(levelLoadRoom);
             // _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         }
@@ -85,8 +86,8 @@ public class LevelManager : MonoBehaviour {
         // Offset the position of the room so it is centered on the entrance door, using the rotation
         _tempLoadRoom.transform.position = _startPoint.position - _tempLoadRoom.transform.rotation * doorPos;
         PlayerController.Instance.gameObject.SetActive(true); // Re-enable player
-        
-        PlayerController.Instance.transform.SetParent(null, true);
+
+        PlayerController.Instance.transform.SetParent(null);
 
         Debug.Log("Opening entrance door.");
         // open the door
@@ -157,6 +158,7 @@ public class LevelManager : MonoBehaviour {
             }
             
             Debug.Log("Done!");
+            // Destroy(gameObject);
         }
         else {
             Debug.LogWarning("There are no more levels to load.");
