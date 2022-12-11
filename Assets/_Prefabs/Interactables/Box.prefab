@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 3
-  createCounterpart: 1
+  createCounterpart: 0
   canPush: 1
   canHold: 1
   pushSounds: []
@@ -93,6 +93,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 5920b8176fa56d740b5d5155455df9a3, type: 3}
       propertyPath: m_Name
       value: WoodBox10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5920b8176fa56d740b5d5155455df9a3, type: 3}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5920b8176fa56d740b5d5155455df9a3, type: 3}
       propertyPath: m_RootOrder

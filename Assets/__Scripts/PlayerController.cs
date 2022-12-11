@@ -15,7 +15,11 @@ public class PlayerController : MonoBehaviour {
     public float jumpForce;
     public float pushForce;
     public float throwForce;
+    
+    private const float _viewBobbingIntensity = 0.015f;
+    private float _viewBobTimer = 0;
 
+    private Vector3 moveDirection;
     private Vector3 playerVelocity;
     private bool isGrounded;
 
@@ -58,8 +62,7 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
     
-    void Update() {
-    }
+    void Update() {}
 
     private void FixedUpdate() {
         DoPlayerMove();
@@ -74,19 +77,33 @@ public class PlayerController : MonoBehaviour {
 
         Vector2 input = controls.FirstPerson.Move.ReadValue<Vector2>();
         
-        Vector3 move = transform.right * input.x + transform.forward * input.y;
+        moveDirection = transform.right * input.x + transform.forward * input.y;
         playerVelocity.y += Physics.gravity.y * Time.fixedDeltaTime;
-        characterController.Move((move + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
+        characterController.Move((moveDirection + playerVelocity) * (playerSpeed * Time.fixedDeltaTime));
     }
     
     private void DoCameraMove() {
         Vector2 mouseDelta = controls.FirstPerson.Look.ReadValue<Vector2>();
 
-        float mouseX = mouseDelta.x * cameraSensitivity * Time.deltaTime;
-        float mouseY = mouseDelta.y * cameraSensitivity * Time.deltaTime;
+        float mouseX = mouseDelta.x * cameraSensitivity * Time.fixedDeltaTime;
+        float mouseY = mouseDelta.y * cameraSensitivity * Time.fixedDeltaTime;
     
         transform.transform.localRotation *= Quaternion.Euler(0f, mouseX, 0f);
         camera.transform.localRotation *= Quaternion.AngleAxis(mouseY, Vector3.left);
+
+        // walk cycle view bobbing
+        Vector3 cameraPos = camera.transform.localPosition;
+        Vector3 cameraRot = camera.transform.localRotation.eulerAngles;
+        if (moveDirection.magnitude > 0.1f) {
+            _viewBobTimer += playerSpeed * Time.fixedDeltaTime * 3;
+            camera.transform.localPosition = new Vector3(cameraPos.x, Mathf.Sin(_viewBobTimer) * _viewBobbingIntensity, cameraPos.z);
+            camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Sin(_viewBobTimer / 2) * _viewBobbingIntensity);
+        }
+        else {
+            _viewBobTimer = 0;
+            camera.transform.localPosition = new Vector3(cameraPos.x, Mathf.Lerp(cameraPos.y, 0, playerSpeed * _viewBobbingIntensity), cameraPos.z);
+            camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Lerp(cameraPos.y, 0, playerSpeed * _viewBobbingIntensity));
+        }
 
         // transform.Rotate(Vector3.up, mouseX, Space.Self);
         // camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
