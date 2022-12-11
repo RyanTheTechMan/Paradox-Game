@@ -7675,7 +7675,8 @@ AudioSource:
   m_GameObject: {fileID: 1481602678}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6764659375033830057, guid: f137e4debb47a1344937c7efdd3c5406,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -8291,6 +8292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 207061391021281695, guid: 957f257beef79654e91e6e1d02e56573,
+        type: 3}
+      propertyPath: collideDebounce
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 207061391021281695, guid: 957f257beef79654e91e6e1d02e56573,
         type: 3}
@@ -12255,3 +12261,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionDistance: 3
   createCounterpart: 0
+  pickUpSound: {fileID: 8300000, guid: 65c44e631a205d948a6266e198dda518, type: 3}
