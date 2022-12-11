@@ -2453,16 +2453,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4429220327530434168, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: handheldPortalUp.m_Bits
-      value: 2155940599
-      objectReference: {fileID: 0}
-    - target: {fileID: 4429220327530434168, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: handheldPortalDown.m_Bits
-      value: 2156005943
-      objectReference: {fileID: 0}
     - target: {fileID: 5489107028042056409, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2567,11 +2557,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8156133135728508516, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2172783351
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896098, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
