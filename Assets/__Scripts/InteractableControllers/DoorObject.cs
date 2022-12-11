@@ -8,6 +8,8 @@ public class DoorObject : ActivatableObject {
     private float _restingPos;
     private float _moveDistance;
     
+    protected new BoxCollider collider;
+    
     protected override void Awake() {
         base.Awake();
         _leftDoor = transform.GetChild(0).gameObject.transform;

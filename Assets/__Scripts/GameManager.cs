@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour {
     public ParticleSystem destroyObjectParticles;
     
     private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
+        if (Instance) {
             Debug.LogWarning("There can only be one GameManger in the scene.");
             Destroy(gameObject);
+
+            return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }

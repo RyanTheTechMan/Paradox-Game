@@ -40,12 +40,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Awake() {
-        if (Instance == null) Instance = this;
-        else {
+        if (Instance) {
             Debug.LogWarning("More than one instance of PlayerController found! Destroying this one.");
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
             return;
         }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+        
         controls = new PlayerControls();
         
         characterController = GetComponent<CharacterController>();

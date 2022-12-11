@@ -16,16 +16,15 @@ public class ResolutionChangeEvent : MonoBehaviour {
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+        if (instance != null) {
             Debug.LogWarning("There can only be one ResolutionChangeEvent in the scene.");
             Destroy(gameObject);
+            return;
         }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         _screenSize.x = Screen.width;
         _screenSize.y = Screen.height;
     }
