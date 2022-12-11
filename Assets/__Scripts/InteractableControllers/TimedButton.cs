@@ -35,7 +35,7 @@ public class TimedButton : ActivatorObject {
     protected override void Activate() {
         base.Activate();
         currentTime = activationTime + 1;
-        InvokeRepeating("Countdown", 0, 1.0f); 
+        InvokeRepeating(nameof(Countdown), 0, 1.0f); 
         
         Animate();
     }
@@ -43,7 +43,7 @@ public class TimedButton : ActivatorObject {
     protected override void Deactivate() {
         base.Deactivate();
         _timer.text = _placeHolderText;
-        CancelInvoke("Countdown");
+        CancelInvoke(nameof(Countdown));
         
         Animate();
     }

@@ -57,13 +57,16 @@ public class ActivatableObject : InteractableObject {
         bool allActive = GetActivators.TrueForAll(x => x.IsActive);
         if (allActive != _lastActiveState) {
             GetActivators.ForEach(x => x._lastActiveState = allActive);
-            
-            GetActivatable.ForEach(x => {
-                x.IsActive = x.inverted ? !allActive : allActive;
-                x.OnActiveChange();
-                x.PlaySound();
-            });
+            SetActivation(allActive);
         }
+    }
+
+    public virtual void SetActivation(bool state) { // Sets the state of all GetActivatable objects to the given value
+        GetActivatable.ForEach(x => {
+            x.IsActive = x.inverted ? !state : state;
+            x.OnActiveChange();
+            x.PlaySound();
+        });
     }
     
     protected virtual void Activate() { // Should only be called by Activator objects.

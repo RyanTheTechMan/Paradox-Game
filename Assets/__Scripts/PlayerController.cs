@@ -37,20 +37,24 @@ public class PlayerController : MonoBehaviour {
     private bool shouldFootstep = false;
 
     private void OnEnable() {
-        controls.Enable();
+        controls?.Enable();
     }
     
     private void OnDisable() {
-        controls.Disable();
+        controls?.Disable();
     }
 
     void Awake() {
-        if (Instance == null) Instance = this;
-        else {
+        if (Instance) {
             Debug.LogWarning("More than one instance of PlayerController found! Destroying this one.");
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             return;
         }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+        
         controls = new PlayerControls();
         
         characterController = GetComponent<CharacterController>();
