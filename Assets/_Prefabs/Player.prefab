@@ -665,7 +665,7 @@ MonoBehaviour:
   playerSpeed: 4
   jumpForce: 0.8
   pushForce: 3
-  throwForce: 8
+  throwForce: 12
   cameraLock: 85
   hand: {fileID: 8156133134851300835}
 --- !u!143 &8156133135919896101
