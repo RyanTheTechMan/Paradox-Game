@@ -35,7 +35,6 @@ public class HandheldPortal : MonoBehaviour {
         ResolutionChangeEvent.onResolutionChangedEnded += Awake;
         _camera.enabled = true;
         _playerController.controls.FirstPerson.TogglePortal.performed += TogglePortal;
-        basePositionY = transform.localPosition.y;
     }
 
     private void OnDisable() {
@@ -71,7 +70,9 @@ public class HandheldPortal : MonoBehaviour {
         _layerPlayer = LayerMask.NameToLayer("Player");
         _layerDefault = LayerMask.NameToLayer("Default");
 
-        UpdateCollisions();
+        UpdateCollisions();     
+        
+        basePositionY = transform.localPosition.y;
     }
 
     private void Update() {
