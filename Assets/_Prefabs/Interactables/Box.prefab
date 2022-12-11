@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 3
-  createCounterpart: 1
+  createCounterpart: 0
   canPush: 1
   canHold: 1
   pushSounds: []
