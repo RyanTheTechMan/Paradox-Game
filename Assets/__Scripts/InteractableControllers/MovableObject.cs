@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MovableObject : InteractableObject {
@@ -79,5 +80,14 @@ public class MovableObject : InteractableObject {
         futureRigidbody.useGravity = _rigidbody.useGravity;
         futureRigidbody.isKinematic = _rigidbody.isKinematic;
         futureRigidbody.angularVelocity = _rigidbody.angularVelocity;
+        
+        Transform counterpartTransform = Counterpart.transform;
+        if ((counterpartTransform.position - transform.position).magnitude > 1) {
+            Instantiate(GameManager.Instance.destroyObjectParticles, counterpartTransform.position, transform.rotation);
+            obj.Drop();
+        }
+        
+        counterpartTransform.localPosition = transform.localPosition;
+        counterpartTransform.localRotation = transform.localRotation;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractableObject : MonoBehaviour {
     public float interactionDistance = 3;
@@ -54,16 +55,7 @@ public class InteractableObject : MonoBehaviour {
         return interactionDistance > 0 && ((transform.position - interactTransform.position).magnitude <= interactionDistance);
     }
 
-    protected virtual void CounterpartUpdate() {
-        Transform counterpartTransform = Counterpart.transform;
-        
-        if ((counterpartTransform.position - transform.position).magnitude > 1) {
-            Instantiate(GameManager.Instance.destroyObjectParticles, counterpartTransform.position, transform.rotation);
-        }
-        
-        counterpartTransform.localPosition = transform.localPosition;
-        counterpartTransform.localRotation = transform.localRotation;
-    }
+    protected virtual void CounterpartUpdate() { }
 
     private IEnumerator SetActive() {
         yield return 0;
