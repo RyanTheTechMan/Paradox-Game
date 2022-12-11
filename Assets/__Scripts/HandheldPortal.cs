@@ -109,7 +109,7 @@ public class HandheldPortal : MonoBehaviour {
         
         isPortalActive = !isPortalActive;
         UpdateCollisions();
-        
+
         if (PlayerController.Instance.holdingObject) {
             PlayerController.Instance.holdingObject.Drop();
         }

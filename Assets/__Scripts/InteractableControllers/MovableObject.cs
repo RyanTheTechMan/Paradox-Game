@@ -84,7 +84,7 @@ public class MovableObject : InteractableObject {
         Transform counterpartTransform = Counterpart.transform;
         if ((counterpartTransform.position - transform.position).magnitude > 1) {
             Instantiate(GameManager.Instance.destroyObjectParticles, counterpartTransform.position, transform.rotation);
-            obj.Drop();
+            if (isFutureCounterpart) obj.Drop();
         }
         
         counterpartTransform.localPosition = transform.localPosition;
