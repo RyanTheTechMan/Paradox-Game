@@ -70,6 +70,8 @@ public class HandheldPortal : MonoBehaviour {
         _layerLeftEye = LayerMask.NameToLayer("Left Eye");
         _layerPlayer = LayerMask.NameToLayer("Player");
         _layerDefault = LayerMask.NameToLayer("Default");
+
+        UpdateCollisions();
     }
 
     private void Update() {
@@ -100,14 +102,22 @@ public class HandheldPortal : MonoBehaviour {
     }
     
     private void TogglePortal(InputAction.CallbackContext obj) {
-        isPortalActive = !isPortalActive;
+        // prevent opening portal if trying to and cannot open
+        if (!LevelManager.Instance.CanUsePortal && !isPortalActive) {
+            return;
+        }
         
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
-        nonInteractableLayer = isPortalActive ? -1 : _layerLeftEye;
+        isPortalActive = !isPortalActive;
+        UpdateCollisions();
         
         if (PlayerController.Instance.holdingObject) {
             PlayerController.Instance.holdingObject.Drop();
         }
+    }
+
+    public void UpdateCollisions() {
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
+        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
+        nonInteractableLayer = isPortalActive ? -1 : _layerLeftEye;
     }
 }
