@@ -94,6 +94,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WoodBox10
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5920b8176fa56d740b5d5155455df9a3, type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5920b8176fa56d740b5d5155455df9a3, type: 3}
       propertyPath: m_RootOrder
       value: 0
