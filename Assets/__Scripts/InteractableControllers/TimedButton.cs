@@ -15,7 +15,7 @@ public class TimedButton : ActivatorObject {
 
     private readonly float _defaultX = 0.08f;
     private readonly float _pressedX = 0.05f;
-    private readonly String _placeHolderText = "--";
+    private readonly string _placeHolderText = "--";
     
     private Transform _button;
     [SerializeField] private TextMeshProUGUI _timer;
