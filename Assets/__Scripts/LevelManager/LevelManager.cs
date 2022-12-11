@@ -59,8 +59,6 @@ public class LevelManager : MonoBehaviour {
             Debug.Log("Not a level scene. LevelManager not initialized. Loading level 1.");
             LoadNextLevel();
         }
-
-        
     }
 
     private void Start() {
@@ -113,12 +111,11 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("Done setting up new level exit");
     }
 
-    public void OnLevelEnd() {
-        Debug.LogWarning("Number 1 victory royale");
-    }
-
     public void LoadNextLevel() {
-        Debug.Log("runn");
+        if (SceneManager.GetActiveScene().name != "loader") {
+            Debug.LogWarning("Level complete. Would load next level.");
+            return;
+        }
         StartCoroutine(LoadNextLevelAsync(_levelID));
     }
     
