@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour {
     private const float _viewBobbingIntensity = 0.015f;
     private float _viewBobTimer = 0;
 
+    public float cameraLock = 85f;
+    private float _cameraRot = 0f;
+
     private Vector3 moveDirection;
     private Vector3 playerVelocity;
     private bool isGrounded;
@@ -83,30 +86,34 @@ public class PlayerController : MonoBehaviour {
     }
     
     private void DoCameraMove() {
+        // get mouse input
         Vector2 mouseDelta = controls.FirstPerson.Look.ReadValue<Vector2>();
-
         float mouseX = mouseDelta.x * cameraSensitivity * Time.fixedDeltaTime;
         float mouseY = mouseDelta.y * cameraSensitivity * Time.fixedDeltaTime;
-    
-        transform.transform.localRotation *= Quaternion.Euler(0f, mouseX, 0f);
-        camera.transform.localRotation *= Quaternion.AngleAxis(mouseY, Vector3.left);
+        
+        // rotate player on x-axis
+        transform.Rotate(Vector3.up, mouseX);
+
+        // rotate camera on y-axis
+        _cameraRot -= mouseY;
+        _cameraRot = Mathf.Clamp(_cameraRot, -cameraLock, cameraLock);
+        Vector3 targetRot = transform.eulerAngles;
+        targetRot.x = _cameraRot;
+        camera.transform.eulerAngles = targetRot;
 
         // walk cycle view bobbing
         Vector3 cameraPos = camera.transform.localPosition;
         Vector3 cameraRot = camera.transform.localRotation.eulerAngles;
-        if (moveDirection.magnitude > 0.1f) {
+        if (moveDirection.magnitude > 0.1f) { // is moving
             _viewBobTimer += playerSpeed * Time.fixedDeltaTime * 3;
             camera.transform.localPosition = new Vector3(cameraPos.x, Mathf.Sin(_viewBobTimer) * _viewBobbingIntensity, cameraPos.z);
             camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Sin(_viewBobTimer / 2) * _viewBobbingIntensity);
         }
-        else {
+        else { // is idle
             _viewBobTimer = 0;
             camera.transform.localPosition = new Vector3(cameraPos.x, Mathf.Lerp(cameraPos.y, 0, playerSpeed * _viewBobbingIntensity), cameraPos.z);
             camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Lerp(cameraPos.y, 0, playerSpeed * _viewBobbingIntensity));
         }
-
-        // transform.Rotate(Vector3.up, mouseX, Space.Self);
-        // camera.transform.Rotate(Vector3.left, mouseY, Space.Self);
     }
 
     private void DoJump() {
