@@ -58,7 +58,7 @@ MonoBehaviour:
   _activateSound: {fileID: 8300000, guid: 029b733cfa9231645951c4c005d73f7c, type: 3}
   _deactivateSound: {fileID: 8300000, guid: 219446f637160374ca740e252d856ca8, type: 3}
   activatedMaterial: {fileID: 2100000, guid: fec273f93ffbb114798845e706867ae6, type: 2}
-  deactivatedMaterial: {fileID: 2100000, guid: 56470edc272a0e248a7308603c674d5b, type: 2}
+  deactivatedMaterial: {fileID: 2100000, guid: 24caa62f04027254e8c2d9ee33fd6603, type: 2}
   activationTime: 5
   _timer: {fileID: 7055029598487985183}
 --- !u!65 &7055029596832098050
@@ -69,9 +69,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7055029596832098048}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.12, y: 1.1, z: 0.3}
   m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!82 &7055029596832098076
@@ -231,7 +239,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 56470edc272a0e248a7308603c674d5b, type: 2}
+  - {fileID: 2100000, guid: 24caa62f04027254e8c2d9ee33fd6603, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
