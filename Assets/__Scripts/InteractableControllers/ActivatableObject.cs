@@ -63,9 +63,14 @@ public class ActivatableObject : InteractableObject {
 
     public virtual void SetActivation(bool state) { // Sets the state of all GetActivatable objects to the given value
         GetActivatable.ForEach(x => {
-            x.IsActive = x.inverted ? !state : state;
-            x.OnActiveChange();
-            x.PlaySound();
+            if (!x) {
+                LinkedObjects.Remove(x);
+            }
+            else {
+                x.IsActive = x.inverted ? !state : state;
+                x.OnActiveChange();
+                x.PlaySound();
+            }
         });
     }
     

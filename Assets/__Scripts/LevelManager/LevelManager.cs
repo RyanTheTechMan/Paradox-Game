@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking.PlayerConnection;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
@@ -19,8 +20,11 @@ public class LevelManager : MonoBehaviour {
     
     private int _levelID; // The current level's id
 
-    private Transform _startPoint;
-    private Transform _endPoint;
+    [SerializeField] private Transform _startPoint;
+    [SerializeField] private Transform _endPoint;
+    
+    [NonSerialized] public static int forceLevel = -1; // Used to force a level to load. -1 means no level is forced.
+    private bool unloadPreviousLevel = true; // Used to unload the previous level.
 
     private void Awake() {
         // If we don't currently know all levels, find them
@@ -45,48 +49,70 @@ public class LevelManager : MonoBehaviour {
         
         Instance = this;
 
-        _startPoint = transform.GetChild(0); // Get start door transform
-        _endPoint = transform.GetChild(1); // Get end door transform
-
         string[] sceneNameSplit = gameObject.scene.name.Split("vel");
         if (sceneNameSplit.Length > 1) {
             int.TryParse(sceneNameSplit[1], out _levelID);
         }
         else {
+            Debug.Log("Loading next level from awake.");
             LoadNextLevel();
         }
     }
 
     private void Start() {
-        if (_levelID != 0) { // If we are in a level. Set up the level load room(s)
-            if (_startPoint.gameObject.activeInHierarchy) { // If there is no start door then this must be the first level
-                SetupNewLevelEntrance();
-            }
-            SetupNewLevelExit();
-        }
+        if (_levelID == 0) return;
+        // We are in a level. Set up the level load room(s)
+        if (_startPoint) SetupNewLevelEntrance();
+        if (_endPoint) SetupNewLevelExit();
     }
 
     private void SetupNewLevelEntrance() {
         if (!_tempLoadRoom) { // We aren't coming from a loaded level. We have to create a room to load into.
+            Debug.Log("There is no entrance temp load room. Creating one.");
             GameObject go = Instantiate(levelLoadRoom);
             _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         }
-        
+        else {
+            Debug.Log("We are coming from a loaded level. No need to create a new Entrance room.");
+            PlayerController.Instance.transform.SetParent(_tempLoadRoom.transform);
+            
+        }
         PlayerController.Instance.gameObject.SetActive(false); // Disable player so it gets teleported with the room
+
         // Get the position of the entrance door so it can be used as an offset when teleporting the room to the entrance door location
         Vector3 doorPos = _tempLoadRoom.enterLevelDoor.transform.localPosition;
+        doorPos.y = 0;
+        doorPos.z = 0;
+        
+        Debug.Log("Entrance wanted at: " + _startPoint.position);
+        
         _tempLoadRoom.transform.rotation = _startPoint.rotation * Quaternion.Euler(0, -90, 0);
         // Offset the position of the room so it is centered on the entrance door, using the rotation
         _tempLoadRoom.transform.position = _startPoint.position - _tempLoadRoom.transform.rotation * doorPos;
+        
+        _tempLoadRoom.gameObject.transform.SetParent(transform);
+
+        Debug.Log("Entrance set to: " + _tempLoadRoom.transform.position);
+        
+        
+        // if (forceLevel != -1) { // We are forcing a level load. The player wont be in the right spot.
+        //     Debug.Log("Forcing level load meaning we need to move the player.");
+        //     Debug.Log("Before: " + PlayerController.Instance.transform.position);
+        //     PlayerController.Instance.transform.position = _tempLoadRoom.transform.position + _tempLoadRoom.transform.up * 2;
+        //     Debug.Log("After: " + PlayerController.Instance.transform.position);
+        // }
+        
         PlayerController.Instance.gameObject.SetActive(true); // Re-enable player
 
         PlayerController.Instance.transform.SetParent(null);
-        
+        DontDestroyOnLoad(PlayerController.Instance);
+
         // open the door
         _tempLoadRoom.enterLevelDoor.SetActivation(true);
     }
 
     private void SetupNewLevelExit() {
+        Debug.Log("There is no exit temp load room. Creating one.");
         GameObject go = Instantiate(levelLoadRoom);
         _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         
@@ -104,24 +130,44 @@ public class LevelManager : MonoBehaviour {
 
         // Get the position of the exit door so it can be used as an offset when teleporting the room to the exit door location
         GameObject exitDoor = _tempLoadRoom.exitLevelDoor.gameObject;
-        Vector3 doorPos = exitDoor.transform.localPosition;
+        Vector3 doorPos = exitDoor.transform.position;
+        doorPos.y = 0;
+        doorPos.z = 0;
+
+        Debug.Log("Exit wanted at: " + _endPoint.position);
         
         _tempLoadRoom.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
         // Offset the position of the room so it is centered on the exit door, using the rotation
         _tempLoadRoom.transform.position = _endPoint.position - _tempLoadRoom.transform.rotation * doorPos;
+        
+        
+        Debug.Log("Set exit to: " + _tempLoadRoom.transform.position);
     }
 
     public void LoadNextLevel() {
         if (SceneManager.GetActiveScene().name != "loader") {
-            Debug.LogWarning("Level complete. Would load next level.");
+            Debug.Log("Level complete. Attempting to load next level.");
+            forceLevel = _levelID + 1;
+            SceneManager.LoadScene("loader");
             return;
         }
+        
+        if (forceLevel != -1) {
+            _levelID = forceLevel;
+            forceLevel = -1;
+            unloadPreviousLevel = false;
+        }
+        else {
+            _levelID++;
+            unloadPreviousLevel = true;
+        }
+
         StartCoroutine(LoadNextLevelAsync(_levelID));
     }
     
-    public IEnumerator LoadNextLevelAsync(int currentLevel) {
+    public IEnumerator LoadNextLevelAsync(int nextLevelID) {
         yield return null;
-        if (currentLevel < _levels.Count - 1) {
+        if (nextLevelID < _levels.Count) {
             if (_tempLoadRoom) {
                 PlayerController.Instance.transform.SetParent(_tempLoadRoom.transform, true);
                 PlayerController.Instance.gameObject.SetActive(false);
@@ -129,10 +175,12 @@ public class LevelManager : MonoBehaviour {
                 PlayerController.Instance.gameObject.SetActive(true);
             }
 
-            if (currentLevel != 0) {
+            if (unloadPreviousLevel && nextLevelID != 1  && forceLevel == -1) {
                 // Don't destroy when we unload the level. If it does, then the code stops working.
                 DontDestroyOnLoad(gameObject);
-                AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(_levels[currentLevel],
+                
+                Debug.Log("unloading " + (nextLevelID - 1));
+                AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(_levels[nextLevelID-1],
                     UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
                 while (!asyncUnload.isDone) {
                     yield return null;
@@ -140,8 +188,8 @@ public class LevelManager : MonoBehaviour {
             }
 
             // yield return new WaitForSeconds(3);
-            
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_levels[currentLevel + 1], LoadSceneMode.Additive);
+            Debug.Log("loading " + nextLevelID);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_levels[nextLevelID], LoadSceneMode.Additive);
             while (!asyncLoad.isDone) {
                 yield return null;
             }
@@ -179,7 +227,7 @@ public class LevelManagerEditor : Editor {
             exit = go.GetComponent<LevelLoadRoomHandler>();
 
             GameObject exitDoor = exit.transform.GetChild(0).GetChild(1).gameObject;
-            Vector3 doorPos = exitDoor.transform.localPosition;
+            Vector3 doorPos = exitDoor.transform.position;
             exit.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
             exit.transform.position = _endPoint.position - exit.transform.rotation * doorPos;
             
@@ -188,7 +236,7 @@ public class LevelManagerEditor : Editor {
             start = go.GetComponent<LevelLoadRoomHandler>();
             
             GameObject startDoor = exit.transform.GetChild(0).GetChild(0).gameObject;
-            doorPos = startDoor.transform.localPosition;
+            doorPos = startDoor.transform.position;
             start.transform.rotation = _startPoint.rotation * Quaternion.Euler(0, -90, 0);
             start.transform.position = _startPoint.position - start.transform.rotation * doorPos;
             

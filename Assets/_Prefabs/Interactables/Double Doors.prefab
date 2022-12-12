@@ -159,7 +159,8 @@ MonoBehaviour:
   preventReplication: 0
   _id: 1
   _activateSound: {fileID: 8300000, guid: 65c44e631a205d948a6266e198dda518, type: 3}
-  _deactivateSound: {fileID: 8300000, guid: cafdf26939ca4d8459ae8fdb0b122d27, type: 3}
+  _deactivateSound: {fileID: 0}
+  doorSpeed: 2
 --- !u!82 &3498159008916410666
 AudioSource:
   m_ObjectHideFlags: 0

@@ -245,5 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanUsePortal: 1
+  createCounterpart: 0
   levelLoadRoom: {fileID: 3289943368175031798, guid: bfff2ff9b4f2ca1469baecac1d8eb5ba,
     type: 3}
+  _startPoint: {fileID: 971332649}
+  _endPoint: {fileID: 1850842845}
