@@ -31,7 +31,8 @@ public class LevelLoadRoomHandler : MonoBehaviour {
 
     private IEnumerator LoadNextLevelAnimation() {
         Debug.Log("Playing animation... (Wait 3 seconds)");
-        yield return new WaitForSeconds(3f);
+        // yield return new WaitForSeconds(3f);
+        yield return null;
         Debug.Log("Calling LoadNextLevel()...");
         LevelManager.Instance.LoadNextLevel();
     }
