@@ -38,11 +38,11 @@ public class PlayerController : MonoBehaviour {
     private bool _shouldFootstep = false;
 
     private void OnEnable() {
-        controls?.Enable();
+        // controls?.Enable();
     }
     
     private void OnDisable() {
-        controls?.Disable();
+        // controls?.Disable();
     }
 
     void Awake() {
@@ -55,8 +55,8 @@ public class PlayerController : MonoBehaviour {
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
-        
-        controls = new PlayerControls();
+
+        controls = InputManager.Instance.playerControls;
         
         characterController = GetComponent<CharacterController>();
         handheldPortal = GetComponentInChildren<HandheldPortal>();

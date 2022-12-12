@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour {
 
     public GameObject levelLoadRoom;
 
-    private static LevelLoadRoomHandler _tempLoadRoom;
+    [NonSerialized] public static LevelLoadRoomHandler tempLoadRoom;
     
     private static List<string> _levels;
     
@@ -69,32 +69,32 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void SetupNewLevelEntrance() {
-        if (!_tempLoadRoom) { // We aren't coming from a loaded level. We have to create a room to load into.
+        if (!tempLoadRoom) { // We aren't coming from a loaded level. We have to create a room to load into.
             if (debug) Debug.Log("There is no entrance temp load room. Creating one.");
             GameObject go = Instantiate(levelLoadRoom);
-            _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
+            tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         }
         else {
             if (debug) Debug.Log("We are coming from a loaded level. No need to create a new Entrance room.");
-            PlayerController.Instance.transform.SetParent(_tempLoadRoom.transform);
+            PlayerController.Instance.transform.SetParent(tempLoadRoom.transform);
             
         }
         PlayerController.Instance.gameObject.SetActive(false); // Disable player so it gets teleported with the room
 
         // Get the position of the entrance door so it can be used as an offset when teleporting the room to the entrance door location
-        Vector3 doorPos = _tempLoadRoom.enterLevelDoor.transform.localPosition;
+        Vector3 doorPos = tempLoadRoom.enterLevelDoor.transform.localPosition;
         doorPos.y = 0;
         doorPos.z = 0;
         
         if (debug) Debug.Log("Entrance wanted at: " + _startPoint.position);
         
-        _tempLoadRoom.transform.rotation = _startPoint.rotation * Quaternion.Euler(0, -90, 0);
+        tempLoadRoom.transform.rotation = _startPoint.rotation * Quaternion.Euler(0, -90, 0);
         // Offset the position of the room so it is centered on the entrance door, using the rotation
-        _tempLoadRoom.transform.position = _startPoint.position - _tempLoadRoom.transform.rotation * doorPos;
+        tempLoadRoom.transform.position = _startPoint.position - tempLoadRoom.transform.rotation * doorPos;
         
-        _tempLoadRoom.gameObject.transform.SetParent(transform);
+        tempLoadRoom.gameObject.transform.SetParent(transform);
 
-        if (debug) Debug.Log("Entrance set to: " + _tempLoadRoom.transform.position);
+        if (debug) Debug.Log("Entrance set to: " + tempLoadRoom.transform.position);
 
         PlayerController.Instance.gameObject.SetActive(true); // Re-enable player
 
@@ -102,40 +102,40 @@ public class LevelManager : MonoBehaviour {
         DontDestroyOnLoad(PlayerController.Instance);
 
         // open the door
-        _tempLoadRoom.enterLevelDoor.SetActivation(true);
+        tempLoadRoom.enterLevelDoor.SetActivation(true);
     }
 
     private void SetupNewLevelExit() {
         if (debug) Debug.Log("There is no exit temp load room. Creating one.");
         GameObject go = Instantiate(levelLoadRoom);
-        _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
+        tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         
         DontDestroyOnLoad(go); // We do this because this will be moved to the start of the next level.
 
         if (createCounterpart) {
-            _tempLoadRoom.exitLevelDoor.createCounterpart = true;
+            tempLoadRoom.exitLevelDoor.createCounterpart = true;
 
-            foreach (Transform child in _tempLoadRoom.exitLevelDoor.transform) {
+            foreach (Transform child in tempLoadRoom.exitLevelDoor.transform) {
                 child.gameObject.layer = PlayerController.Instance.handheldPortal.layerRightEye;
             }
         }
 
-        // _tempLoadRoom.exitLevelDoor.counterpartParent = _tempLoadRoom.enterLevelDoor.transform;
+        // tempLoadRoom.exitLevelDoor.counterpartParent = tempLoadRoom.enterLevelDoor.transform;
 
         // Get the position of the exit door so it can be used as an offset when teleporting the room to the exit door location
-        GameObject exitDoor = _tempLoadRoom.exitLevelDoor.gameObject;
+        GameObject exitDoor = tempLoadRoom.exitLevelDoor.gameObject;
         Vector3 doorPos = exitDoor.transform.position;
         doorPos.y = 0;
         doorPos.z = 0;
 
         if (debug) Debug.Log("Exit wanted at: " + _endPoint.position);
         
-        _tempLoadRoom.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
+        tempLoadRoom.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
         // Offset the position of the room so it is centered on the exit door, using the rotation
-        _tempLoadRoom.transform.position = _endPoint.position - _tempLoadRoom.transform.rotation * doorPos;
+        tempLoadRoom.transform.position = _endPoint.position - tempLoadRoom.transform.rotation * doorPos;
         
         
-        if (debug) Debug.Log("Set exit to: " + _tempLoadRoom.transform.position);
+        if (debug) Debug.Log("Set exit to: " + tempLoadRoom.transform.position);
     }
 
     public void LoadNextLevel() {
@@ -162,10 +162,10 @@ public class LevelManager : MonoBehaviour {
     public IEnumerator LoadNextLevelAsync(int nextLevelID) {
         yield return null;
         if (nextLevelID < _levels.Count) {
-            if (_tempLoadRoom) {
-                PlayerController.Instance.transform.SetParent(_tempLoadRoom.transform, true);
+            if (tempLoadRoom) {
+                PlayerController.Instance.transform.SetParent(tempLoadRoom.transform, true);
                 PlayerController.Instance.gameObject.SetActive(false);
-                _tempLoadRoom.transform.position = new Vector3(_tempLoadRoom.transform.position.x, _tempLoadRoom.transform.position.y - 100f, _tempLoadRoom.transform.position.z);
+                tempLoadRoom.transform.position = new Vector3(tempLoadRoom.transform.position.x, tempLoadRoom.transform.position.y - 100f, tempLoadRoom.transform.position.z);
                 PlayerController.Instance.gameObject.SetActive(true);
             }
 

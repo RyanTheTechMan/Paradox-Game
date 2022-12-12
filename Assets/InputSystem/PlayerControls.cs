@@ -80,6 +80,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""a53701b7-2ea7-4732-b20a-edb447ee8cde"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.5,pressPoint=0.5)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""TogglePortal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c580fc74-417c-4561-8bb5-6a976fa3a218"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -223,6 +243,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_FirstPerson_PrimaryInteract = m_FirstPerson.FindAction("PrimaryInteract", throwIfNotFound: true);
         m_FirstPerson_SecondaryInteract = m_FirstPerson.FindAction("SecondaryInteract", throwIfNotFound: true);
         m_FirstPerson_TogglePortal = m_FirstPerson.FindAction("TogglePortal", throwIfNotFound: true);
+        m_FirstPerson_PauseMenu = m_FirstPerson.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -288,6 +309,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_FirstPerson_PrimaryInteract;
     private readonly InputAction m_FirstPerson_SecondaryInteract;
     private readonly InputAction m_FirstPerson_TogglePortal;
+    private readonly InputAction m_FirstPerson_PauseMenu;
     public struct FirstPersonActions
     {
         private @PlayerControls m_Wrapper;
@@ -298,6 +320,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @PrimaryInteract => m_Wrapper.m_FirstPerson_PrimaryInteract;
         public InputAction @SecondaryInteract => m_Wrapper.m_FirstPerson_SecondaryInteract;
         public InputAction @TogglePortal => m_Wrapper.m_FirstPerson_TogglePortal;
+        public InputAction @PauseMenu => m_Wrapper.m_FirstPerson_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_FirstPerson; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,6 +348,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TogglePortal.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
                 @TogglePortal.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
                 @TogglePortal.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnTogglePortal;
+                @PauseMenu.started -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.performed -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.canceled -= m_Wrapper.m_FirstPersonActionsCallbackInterface.OnPauseMenu;
             }
             m_Wrapper.m_FirstPersonActionsCallbackInterface = instance;
             if (instance != null)
@@ -347,6 +373,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TogglePortal.started += instance.OnTogglePortal;
                 @TogglePortal.performed += instance.OnTogglePortal;
                 @TogglePortal.canceled += instance.OnTogglePortal;
+                @PauseMenu.started += instance.OnPauseMenu;
+                @PauseMenu.performed += instance.OnPauseMenu;
+                @PauseMenu.canceled += instance.OnPauseMenu;
             }
         }
     }
@@ -368,5 +397,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnPrimaryInteract(InputAction.CallbackContext context);
         void OnSecondaryInteract(InputAction.CallbackContext context);
         void OnTogglePortal(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
     }
 }
