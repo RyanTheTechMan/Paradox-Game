@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 moveDirection;
     private Vector3 playerVelocity;
     private bool isGrounded;
+    private bool wasGrounded;
 
     [NonSerialized] public PlayerControls controls;
 
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour {
     
     public AudioSource footstepSource;
     public AudioClip[] footstepClips;
-    private bool shouldFootstep = false;
+    private bool _shouldFootstep = false;
 
     private void OnEnable() {
         controls?.Enable();
@@ -81,7 +82,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void DoPlayerMove() {
+        wasGrounded = isGrounded;
         isGrounded = characterController.isGrounded;
+
+        if (isGrounded && !wasGrounded) {
+            DoFootstepSound();
+            DoFootstepSound();
+        }
+        
         if (isGrounded && playerVelocity.y < 0) {
             playerVelocity.y = 0;
         }
@@ -118,9 +126,9 @@ public class PlayerController : MonoBehaviour {
             camera.transform.localRotation = Quaternion.Euler(cameraRot.x, cameraRot.y, Mathf.Sin(_viewBobTimer / 2) * _viewBobbingIntensity);
 
             float footfall = Mathf.Cos(_viewBobTimer);
-            if (footfall < 0 && shouldFootstep && isGrounded) DoFootstepSound();
+            if (footfall < 0 && _shouldFootstep && isGrounded) DoFootstepSound();
 
-            shouldFootstep = footfall >= 0;
+            _shouldFootstep = footfall >= 0;
             
             if (_viewBobTimer > Math.PI * 2) {
                 _viewBobTimer -= (float)Math.PI * 2;
@@ -159,7 +167,7 @@ public class PlayerController : MonoBehaviour {
     private void DoFootstepSound() {
         AudioClip footstep = footstepClips[Random.Range(0, footstepClips.Length)];
         footstepSource.pitch = Random.Range(0.5f, 0.6f);
-        footstepSource.volume = Random.Range(0.8f, 1.2f);
+        footstepSource.volume = Random.Range(0.7f, 1f);
         footstepSource.PlayOneShot(footstep);
     }
 }

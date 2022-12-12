@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -31,10 +33,16 @@ public class HandheldPortal : MonoBehaviour {
     private int _layerDefault;
     [NonSerialized] public int nonInteractableLayer;
 
+    private AudioSource _audioSource;
+    public float portalVolume = 0.15f;
+    private float _volumeTimer = 0f;
+
     private void OnEnable() {
         ResolutionChangeEvent.onResolutionChangedEnded += Awake;
         _camera.enabled = true;
         _playerController.controls.FirstPerson.TogglePortal.performed += TogglePortal;
+        
+        OnPortalToggle();
     }
 
     private void OnDisable() {
@@ -44,6 +52,7 @@ public class HandheldPortal : MonoBehaviour {
     }
 
     private void Awake() {
+        _audioSource = GetComponent<AudioSource>();
         _camera = GetComponentInChildren<Camera>(true);
         _camera.gameObject.SetActive(true); // Disabled by default to fix issues with looking at game in the editor
         _playerController = PlayerController.Instance;
@@ -70,8 +79,6 @@ public class HandheldPortal : MonoBehaviour {
         _layerPlayer = LayerMask.NameToLayer("Player");
         _layerDefault = LayerMask.NameToLayer("Default");
 
-        UpdateCollisions();     
-        
         basePositionY = transform.localPosition.y;
     }
 
@@ -81,44 +88,70 @@ public class HandheldPortal : MonoBehaviour {
         _lensDistortion.intensity.value = Mathf.Sin((Time.time - 3f)/3) * 0.35f;
         _lensDistortion.xMultiplier.value = Mathf.Cos((Time.time + 1f)/5) * 0.3f + 0.5f;
         _lensDistortion.yMultiplier.value = Mathf.Cos((Time.time - 8f)/6) * 0.3f + 0.5f;
+
+        _audioSource.panStereo = Mathf.Sin(_volumeTimer);
+
+        _volumeTimer += Time.deltaTime * 0.2f;
     }
 
     private void FixedUpdate() {
-        if (isPortalActive) _camera.transform.position = _playerController.camera.transform.position;
-
+        _camera.transform.position = _playerController.camera.transform.position;
         _camera.fieldOfView = PlayerController.Instance.camera.fieldOfView * Mathf.Pow(-_camera.transform.localPosition.z, -1);
-
-        // Move portal up or down if isPortalActive
-        Vector3 rot = transform.localRotation.eulerAngles;
-        rot.z = Mathf.Lerp(rot.z, isPortalActive ? rotationUp : rotationDown, Time.fixedUnscaledDeltaTime * 1f);
-        transform.localRotation = Quaternion.Euler(rot);
-        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 2f);
-
-        distanceMoved = Mathf.Lerp(distanceMoved, isPortalActive ? 0f : moveDownDistance, Time.fixedUnscaledDeltaTime * 2f);
-        transform.localPosition = new Vector3(transform.localPosition.x, basePositionY - distanceMoved, transform.localPosition.z);
-
-        foreach (Transform child in transform) { // Show or hide portal components when portal is shown or hidden
-            child.gameObject.SetActive(transform.localPosition.y > -1.4f);
-        }
     }
     
     private void TogglePortal(InputAction.CallbackContext obj) {
         // prevent opening portal if trying to and cannot open
-        if (!LevelManager.Instance.CanUsePortal && !isPortalActive) {
-            return;
-        }
+        if (!LevelManager.Instance.CanUsePortal && !isPortalActive) return;
         
         isPortalActive = !isPortalActive;
+        OnPortalToggle();
+    }
+
+    private void OnPortalToggle() {
         UpdateCollisions();
+        StartCoroutine(DoAnimate());
 
         if (PlayerController.Instance.holdingObject) {
             PlayerController.Instance.holdingObject.Drop();
         }
     }
 
+    public void ShowPortal() {
+        if (isPortalActive || !LevelManager.Instance.CanUsePortal) return;
+        isPortalActive = true;
+        OnPortalToggle();
+    }
+
+    public void HidePortal() {
+        if (!isPortalActive) return;
+        isPortalActive = false;
+        OnPortalToggle();
+    }
+
     public void UpdateCollisions() {
         Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
         Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
         nonInteractableLayer = isPortalActive ? -1 : _layerLeftEye;
+    }
+
+    private IEnumerator DoAnimate() {
+        Vector3 startRot = transform.localRotation.eulerAngles;
+        float targetRot = isPortalActive ? rotationUp : rotationDown;
+
+        Vector3 startPos = transform.localPosition;
+        float targetPos = isPortalActive ? basePositionY : basePositionY - moveDownDistance;
+        
+        float startVolume = _audioSource.volume;
+        float endVolume = isPortalActive ? portalVolume : 0;
+
+        float t = 0f;
+        bool animateState = isPortalActive;
+        while (t < 1f && animateState == isPortalActive) {
+            t += Time.deltaTime * 1.5f;
+            transform.localRotation = Quaternion.Euler(startRot.x, startRot.y, Mathf.Lerp(startRot.z, targetRot, t));
+            transform.localPosition = new Vector3(startPos.x, Mathf.Lerp(startPos.y, targetPos, t), startPos.z);
+            _audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);
+            yield return null;
+        }
     }
 }
