@@ -7,7 +7,7 @@ public class PickUpPortal : InteractableObject {
 	
 	public override void PrimaryInteract() {
 		LevelManager.Instance.CanUsePortal = true;
-		playerController.handheldPortal.isPortalActive = true;
+		playerController.handheldPortal.ShowPortal();
 		playerController.handheldPortal.UpdateCollisions();
 		
 		playerController.footstepSource.PlayOneShot(pickUpSound);
