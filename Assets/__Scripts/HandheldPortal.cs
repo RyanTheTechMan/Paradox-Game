@@ -27,8 +27,9 @@ public class HandheldPortal : MonoBehaviour {
     private const float moveDownDistance = 1f;
     private float distanceMoved = 0f;
     private float basePositionY;
-    
-    private int _layerLeftEye;
+
+    public int layerLeftEye { get; private set; }
+    public int layerRightEye { get; private set; }
     private int _layerPlayer;
     private int _layerDefault;
     [NonSerialized] public int nonInteractableLayer;
@@ -75,7 +76,8 @@ public class HandheldPortal : MonoBehaviour {
         volume.profile.TryGet(out LensDistortion lensDistortion);
         _lensDistortion = lensDistortion;
 
-        _layerLeftEye = LayerMask.NameToLayer("Left Eye");
+        layerLeftEye = LayerMask.NameToLayer("Left Eye");
+        layerRightEye = LayerMask.NameToLayer("Right Eye");
         _layerPlayer = LayerMask.NameToLayer("Player");
         _layerDefault = LayerMask.NameToLayer("Default");
 
@@ -129,9 +131,9 @@ public class HandheldPortal : MonoBehaviour {
     }
 
     public void UpdateCollisions() {
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerDefault, !isPortalActive);
-        Physics.IgnoreLayerCollision(_layerLeftEye, _layerPlayer, !isPortalActive);
-        nonInteractableLayer = isPortalActive ? -1 : _layerLeftEye;
+        Physics.IgnoreLayerCollision(layerLeftEye, _layerDefault, !isPortalActive);
+        Physics.IgnoreLayerCollision(layerLeftEye, _layerPlayer, !isPortalActive);
+        nonInteractableLayer = isPortalActive ? -1 : layerLeftEye;
     }
 
     private IEnumerator DoAnimate() {
