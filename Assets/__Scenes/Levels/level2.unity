@@ -2134,26 +2134,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3487356024995990231, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 31
-      objectReference: {fileID: 0}
-    - target: {fileID: 6501706163328597745, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_ReceiveGI
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6501706163328597745, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_LightProbeUsage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7678807559805670201, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8156133135536880139, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2164,11 +2144,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8156133135728508513, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896098, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
       propertyPath: m_Name
@@ -2178,16 +2153,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8156133135919896100, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: landingClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 092ef399c0f08f14bbeac12bdab5ddcf, type: 3}
-    - target: {fileID: 8156133135919896100, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: footstepClips.Array.size
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896103, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
@@ -2243,11 +2208,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8517554529964239122, guid: 9ea213599bfddcb45904c5932252337a,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
