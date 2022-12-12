@@ -190,6 +190,12 @@ public class LevelManager : MonoBehaviour {
         }
         else {
             Debug.LogWarning("There are no more levels to load.");
+            DestroyImmediate(PlayerController.Instance.gameObject);
+            DestroyImmediate(_tempLoadRoom.gameObject);
+            DestroyImmediate(GameManager.Instance.gameObject);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
