@@ -147,7 +147,7 @@ public class HandheldPortal : MonoBehaviour {
         float t = 0f;
         bool animateState = isPortalActive;
         while (t < 1f && animateState == isPortalActive) {
-            t += Time.deltaTime * 2f;
+            t += Time.deltaTime * 1.5f;
             transform.localRotation = Quaternion.Euler(startRot.x, startRot.y, Mathf.Lerp(startRot.z, targetRot, t));
             transform.localPosition = new Vector3(startPos.x, Mathf.Lerp(startPos.y, targetPos, t), startPos.z);
             _audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);

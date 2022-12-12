@@ -2161,6 +2161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156133135919896100, guid: 9ea213599bfddcb45904c5932252337a,
         type: 3}
+      propertyPath: landingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 092ef399c0f08f14bbeac12bdab5ddcf, type: 3}
+    - target: {fileID: 8156133135919896100, guid: 9ea213599bfddcb45904c5932252337a,
+        type: 3}
       propertyPath: footstepClips.Array.size
       value: 3
       objectReference: {fileID: 0}
