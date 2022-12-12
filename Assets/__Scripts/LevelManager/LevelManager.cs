@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class LevelManager : MonoBehaviour {
     public static event Action OnLevelComplete;
     public bool CanUsePortal = true;
 
-    [SerializeField] private GameObject levelLoadRoom;
+    public GameObject levelLoadRoom;
 
     private static LevelLoadRoomHandler _tempLoadRoom;
     
@@ -165,3 +166,50 @@ public class LevelManager : MonoBehaviour {
         }
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(LevelManager), true), CanEditMultipleObjects]
+public class LevelManagerEditor : Editor {
+    
+    private Transform _startPoint;
+    private Transform _endPoint;
+
+    private static LevelLoadRoomHandler start;
+    private static LevelLoadRoomHandler exit;
+    public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
+        LevelManager lvlMgr = (LevelManager) target;
+
+        if ((start || exit) && GUILayout.Button("Remove Previews")) {
+            DestroyImmediate(start.gameObject);
+            DestroyImmediate(exit.gameObject);
+            start = null;
+            exit = null;
+        }
+        else if (GUILayout.Button("Preview Level Load Rooms")) {
+            _startPoint = lvlMgr.transform.GetChild(0); // Get start door transform
+            _endPoint = lvlMgr.transform.GetChild(1); // Get end door transform
+            
+            GameObject go = Instantiate(lvlMgr.levelLoadRoom);
+            exit = go.GetComponent<LevelLoadRoomHandler>();
+
+            GameObject exitDoor = exit.transform.GetChild(0).GetChild(1).gameObject;
+            Vector3 doorPos = exitDoor.transform.localPosition;
+            exit.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
+            exit.transform.position = _endPoint.position - exit.transform.rotation * doorPos;
+            
+            
+            go = Instantiate(lvlMgr.levelLoadRoom);
+            start = go.GetComponent<LevelLoadRoomHandler>();
+            
+            GameObject startDoor = exit.transform.GetChild(0).GetChild(0).gameObject;
+            doorPos = startDoor.transform.localPosition;
+            start.transform.rotation = _startPoint.rotation * Quaternion.Euler(0, -90, 0);
+            start.transform.position = _startPoint.position - start.transform.rotation * doorPos;
+            
+            Undo.RegisterCreatedObjectUndo(start.gameObject, "Created Level Load Room");
+            Undo.RegisterCreatedObjectUndo(exit.gameObject, "Created Level Load Room");
+        }
+    }
+}
+#endif
