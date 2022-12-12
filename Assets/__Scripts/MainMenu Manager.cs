@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -34,16 +35,12 @@ public class MainMenuManager : MonoBehaviour {
     private void Awake() {
         if (_levels == null) {
             _levels = new List<string>();
-            _levels.Add(""); // Create a dummy scene so ID's line up with level numbers.
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
                 string path = SceneUtility.GetScenePathByBuildIndex(i);
                 int lastSlash = path.LastIndexOf("/");
                 string sceneName = path.Substring(lastSlash + 1, path.LastIndexOf(".") - lastSlash - 1);
                 if (sceneName.StartsWith("level")) {
                     _levels.Add(sceneName);
-
-                    GameObject button =  Instantiate(levelButtonPrefab, levelSelectFrame.transform);
-                    button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Level " + (i - 1);
                 }
             }
         }
@@ -61,6 +58,30 @@ public class MainMenuManager : MonoBehaviour {
         colorAdjustments = colorAdjustments1;
 
         levelSelectMask.alpha = 0;
+
+        SetupLevelSelector();
+    }
+
+    private void SetupLevelSelector() {
+        foreach (string level in _levels) {
+            GameObject button =  Instantiate(levelButtonPrefab, levelSelectFrame.transform);
+
+            int levelNumber = -1;
+            string[] levelName = level.Split("vel");
+            if (levelName.Length > 1) {
+                int.TryParse(levelName[1], out levelNumber);
+            }
+            
+            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Level " + levelNumber;
+            
+            EventTrigger trigger = button.GetComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry {eventID = EventTriggerType.PointerClick};
+            entry.callback.AddListener(_ => {
+                LevelManager.forceLevel = levelNumber;
+                PlayButton();
+            });
+            trigger.triggers.Add(entry);
+        }
     }
 
     public void PlayButton() {
@@ -96,7 +117,7 @@ public class MainMenuManager : MonoBehaviour {
     private IEnumerator LoadLevelLoader() {
         // Dip screen to black
         for (float i = 0; i < 3; i += Time.deltaTime) {
-            colorAdjustments.postExposure.value = Mathf.Lerp(0, -10, i);
+            colorAdjustments.postExposure.value = Mathf.Lerp(0, -13, i);
             yield return null;
         }
         
