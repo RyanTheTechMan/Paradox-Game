@@ -1,16 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainMenuManager : MonoBehaviour
-{
+public class MainMenuManager : MonoBehaviour {
     private Camera mainCamera;
     public float startZ;
     public float endZ;
+    public float beginZ = 45;
+    public float mainMenuZ = -8.75f;
+    public float levelSelectZ = 7.5f;
     public float speed;
 
     private DepthOfField dof;
@@ -19,7 +23,31 @@ public class MainMenuManager : MonoBehaviour
     
     public Volume volumeBlur;
     
+    private static List<string> _levels;
+    public Canvas levelSelectContainer;
+    public Canvas levelSelectFrame;
+    public GameObject levelButtonPrefab;
+
+    public CanvasGroup levelSelectMask;
+    private float _maskTrans;
+    
     private void Awake() {
+        if (_levels == null) {
+            _levels = new List<string>();
+            _levels.Add(""); // Create a dummy scene so ID's line up with level numbers.
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
+                string path = SceneUtility.GetScenePathByBuildIndex(i);
+                int lastSlash = path.LastIndexOf("/");
+                string sceneName = path.Substring(lastSlash + 1, path.LastIndexOf(".") - lastSlash - 1);
+                if (sceneName.StartsWith("level")) {
+                    _levels.Add(sceneName);
+
+                    GameObject button =  Instantiate(levelButtonPrefab, levelSelectFrame.transform);
+                    button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Level " + (i - 1);
+                }
+            }
+        }
+        
         mainCamera = Camera.main;
         mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, startZ);
         
@@ -31,10 +59,17 @@ public class MainMenuManager : MonoBehaviour
         
         volumeBlur.profile.TryGet(out ColorAdjustments colorAdjustments1);
         colorAdjustments = colorAdjustments1;
+
+        levelSelectMask.alpha = 0;
     }
 
     public void PlayButton() {
-        
+        // float temp = startZ;
+        // startZ = endZ;
+        // endZ = temp / 2;
+
+        endZ = startZ;
+
         StartCoroutine(LoadLevelLoader());
     }
 
@@ -44,6 +79,18 @@ public class MainMenuManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    public void LevelSelectButton() {
+        _maskTrans = 1;
+        endZ = levelSelectZ;
+        StartCoroutine(DoSelectTransparency());
+    }
+
+    public void MainMenuButton() {
+        _maskTrans = 0;
+        StartCoroutine(DoSelectTransparency());
+        endZ = mainMenuZ;
     }
 
     private IEnumerator LoadLevelLoader() {
@@ -83,5 +130,18 @@ public class MainMenuManager : MonoBehaviour
         distortion.scale.value = Mathf.Lerp(0.4f, 1f, distance);
         
         colorAdjustments.postExposure.value = Mathf.Lerp(-10, 0f, distance*2f);
+    }
+
+    private IEnumerator DoSelectTransparency() {
+        float startPos = levelSelectMask.alpha;
+        float endPos = _maskTrans;
+        
+        float t = 0f;
+        float animateState = endPos;
+        while (t < 1f && Mathf.Approximately(animateState, _maskTrans)) {
+            t += Time.deltaTime * 0.75f;
+            levelSelectMask.alpha = Mathf.Lerp(startPos, endPos, t);
+            yield return null;
+        }
     }
 }
