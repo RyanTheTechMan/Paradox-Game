@@ -9810,6 +9810,11 @@ PrefabInstance:
       propertyPath: CanUsePortal
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2737692434772075323, guid: 047593e43c852294a958cc46ad9f5c27,
+        type: 3}
+      propertyPath: createCounterpart
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

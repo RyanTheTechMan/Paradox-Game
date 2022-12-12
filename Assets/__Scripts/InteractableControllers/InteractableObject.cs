@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InteractableObject : MonoBehaviour {
     public float interactionDistance = 3;
     
-    [SerializeField] private bool createCounterpart;
+    public bool createCounterpart;
     
     protected bool isFutureCounterpart;
     

@@ -1,9 +1,14 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class LevelLoadDoorObject : DoorObject {
+    public Transform counterpartParent;
+
+    // protected override void Start() {
+    //     base.Start();
+    //     gameObject.transform.SetParent(counterpartParent);
+    // }
+
     public void LockDoor() {
         // Create a box collider to block the player from entering the door
         SetActivation(false);

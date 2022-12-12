@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour {
     public static LevelManager Instance { get; private set; }
     public static event Action OnLevelComplete;
     public bool CanUsePortal = true;
+    [SerializeField] private bool createCounterpart;
 
     public GameObject levelLoadRoom;
 
@@ -31,7 +32,6 @@ public class LevelManager : MonoBehaviour {
                 int lastSlash = path.LastIndexOf("/");
                 string sceneName = path.Substring(lastSlash + 1, path.LastIndexOf(".") - lastSlash - 1);
                 if (sceneName.StartsWith("level")) {
-                    Debug.Log("Adding \"" + sceneName + "\" to level list.");
                     _levels.Add(sceneName);
                 }
             }
@@ -40,11 +40,7 @@ public class LevelManager : MonoBehaviour {
         // If LevelManager is not already set, set it. One per level.
         if (Instance) {
             Debug.LogWarning("LevelManager already exists. Disabling duplicate.");
-            // Instance.gameObject.SetActive(false);
             Destroy(Instance.gameObject);
-            
-            // GameObject go = Instantiate(levelLoadRoom);
-            // _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         }
         
         Instance = this;
@@ -55,10 +51,8 @@ public class LevelManager : MonoBehaviour {
         string[] sceneNameSplit = gameObject.scene.name.Split("vel");
         if (sceneNameSplit.Length > 1) {
             int.TryParse(sceneNameSplit[1], out _levelID);
-            Debug.Log("LevelManager initialized for level " + _levelID);
         }
         else {
-            Debug.Log("Not a level scene. LevelManager not initialized. Loading level 1.");
             LoadNextLevel();
         }
     }
@@ -73,9 +67,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void SetupNewLevelEntrance() {
-        Debug.Log("Settings up new level entrance.");
         if (!_tempLoadRoom) { // We aren't coming from a loaded level. We have to create a room to load into.
-            Debug.Log("Instantiate levelLoadRoom in entrance generation");
             GameObject go = Instantiate(levelLoadRoom);
             _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
         }
@@ -89,18 +81,26 @@ public class LevelManager : MonoBehaviour {
         PlayerController.Instance.gameObject.SetActive(true); // Re-enable player
 
         PlayerController.Instance.transform.SetParent(null);
-
-        Debug.Log("Opening entrance door.");
+        
         // open the door
         _tempLoadRoom.enterLevelDoor.SetActivation(true);
-        Debug.Log("Done setting up new level entrance.");
     }
 
     private void SetupNewLevelExit() {
-        Debug.Log("Settings up new level exit");
         GameObject go = Instantiate(levelLoadRoom);
         _tempLoadRoom = go.GetComponent<LevelLoadRoomHandler>();
+        
         DontDestroyOnLoad(go); // We do this because this will be moved to the start of the next level.
+
+        if (createCounterpart) {
+            _tempLoadRoom.exitLevelDoor.createCounterpart = true;
+
+            foreach (Transform child in _tempLoadRoom.exitLevelDoor.transform) {
+                child.gameObject.layer = PlayerController.Instance.handheldPortal.layerRightEye;
+            }
+        }
+
+        // _tempLoadRoom.exitLevelDoor.counterpartParent = _tempLoadRoom.enterLevelDoor.transform;
 
         // Get the position of the exit door so it can be used as an offset when teleporting the room to the exit door location
         GameObject exitDoor = _tempLoadRoom.exitLevelDoor.gameObject;
@@ -109,8 +109,6 @@ public class LevelManager : MonoBehaviour {
         _tempLoadRoom.transform.rotation = _endPoint.rotation * Quaternion.Euler(0, -90, 0);
         // Offset the position of the room so it is centered on the exit door, using the rotation
         _tempLoadRoom.transform.position = _endPoint.position - _tempLoadRoom.transform.rotation * doorPos;
-
-        Debug.Log("Done setting up new level exit");
     }
 
     public void LoadNextLevel() {
@@ -122,23 +120,16 @@ public class LevelManager : MonoBehaviour {
     }
     
     public IEnumerator LoadNextLevelAsync(int currentLevel) {
-        Debug.Log("Called async method");
         yield return null;
-        Debug.Log("Starting load level");
         if (currentLevel < _levels.Count - 1) {
-            Debug.Log("Loading New Level");
             if (_tempLoadRoom) {
                 PlayerController.Instance.transform.SetParent(_tempLoadRoom.transform, true);
                 PlayerController.Instance.gameObject.SetActive(false);
                 _tempLoadRoom.transform.position = new Vector3(_tempLoadRoom.transform.position.x, _tempLoadRoom.transform.position.y - 100f, _tempLoadRoom.transform.position.z);
                 PlayerController.Instance.gameObject.SetActive(true);
             }
-            
-            if (currentLevel == 0) {
-                Debug.Log("No previous level to unload");
-            }
-            else {
-                Debug.Log("Unloading previous level");
+
+            if (currentLevel != 0) {
                 // Don't destroy when we unload the level. If it does, then the code stops working.
                 DontDestroyOnLoad(gameObject);
                 AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(_levels[currentLevel],
@@ -146,20 +137,14 @@ public class LevelManager : MonoBehaviour {
                 while (!asyncUnload.isDone) {
                     yield return null;
                 }
-                Debug.Log("Done!");
             }
 
-            Debug.Log("Ready, loading next level");
-            yield return new WaitForSeconds(3);
-            Debug.Log("Starting load rn");
+            // yield return new WaitForSeconds(3);
             
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_levels[currentLevel + 1], LoadSceneMode.Additive);
             while (!asyncLoad.isDone) {
                 yield return null;
             }
-            
-            Debug.Log("Done!");
-            // Destroy(gameObject);
         }
         else {
             Debug.LogWarning("There are no more levels to load.");
