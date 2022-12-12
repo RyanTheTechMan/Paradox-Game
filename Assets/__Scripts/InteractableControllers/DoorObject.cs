@@ -7,6 +7,8 @@ public class DoorObject : ActivatableObject {
     
     private float _restingPos;
     private float _moveDistance;
+
+    public float doorSpeed = 2f;
     
     protected new BoxCollider collider;
     
@@ -23,13 +25,12 @@ public class DoorObject : ActivatableObject {
     }
 
     private IEnumerator DoAnimate() {
-        const float speed = 2f;
         Vector3 pos = _leftDoor.localPosition;
         
         float startPos = pos.x;
         float endPos = IsActive ? Mathf.Abs(_restingPos) + _moveDistance : _restingPos;
         float speedOffset = Mathf.Abs(startPos - endPos);
-        speedOffset = speed * (1 / speedOffset);
+        speedOffset = doorSpeed * (1 / speedOffset);
         
         float t = 0f;
         bool animateState = IsActive;
